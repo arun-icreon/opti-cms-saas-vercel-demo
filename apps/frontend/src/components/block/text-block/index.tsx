@@ -1,11 +1,14 @@
 import type * as GraphQL from "@gql/graphql";
 import { gql } from "@gql/gql";
 import { CmsComponent } from "@remkoj/optimizely-cms-react";
+import { showUpdates } from "../../../../flags";
 
-const TextBlock: CmsComponent<GraphQL.TextBlockDataFragment> = ({
+const TextBlock: CmsComponent<GraphQL.TextBlockDataFragment> = async ({
   data,
   inEditMode,
 }) => {
+  const showChanges = await showUpdates();
+
   const {
     className = "",
     center = false,
@@ -73,12 +76,21 @@ const TextBlock: CmsComponent<GraphQL.TextBlockDataFragment> = ({
             dangerouslySetInnerHTML={{ __html: overline }}
           ></span>
         )}
-        {heading && (
-          <h2
-            data-epi-edit={inEditMode ? "TextBlockHeading" : undefined}
-            dangerouslySetInnerHTML={{ __html: heading }}
-          ></h2>
-        )}
+        {heading &&
+          (showChanges ? (
+            <>
+              <h2
+                data-epi-edit={inEditMode ? "TextBlockHeading" : undefined}
+                dangerouslySetInnerHTML={{ __html: heading }}
+              ></h2>
+              <p>Custom Code</p>
+            </>
+          ) : (
+            <h2
+              data-epi-edit={inEditMode ? "TextBlockHeading" : undefined}
+              dangerouslySetInnerHTML={{ __html: heading }}
+            ></h2>
+          ))}
         {description && description.html && (
           <span
             data-epi-edit={inEditMode ? "TextBlockDescription" : undefined}

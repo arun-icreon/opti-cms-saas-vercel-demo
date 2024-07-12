@@ -10,9 +10,8 @@ import {
 } from "@gql/graphql";
 import { CmsComponent } from "@remkoj/optimizely-cms-react";
 import { getServerContext } from "@remkoj/optimizely-cms-react/rsc";
-import { showUpdates } from "../../../../flags";
 
-const HeroBlock: CmsComponent<HeroBlockDataFragment> = async ({
+const HeroBlock: CmsComponent<HeroBlockDataFragment> = ({
   data: {
     heroImage: image,
     eyebrow = "",
@@ -23,7 +22,6 @@ const HeroBlock: CmsComponent<HeroBlockDataFragment> = async ({
   },
 }) => {
   const { inEditMode } = getServerContext();
-  const showChanges = await showUpdates();
   const heroImage = useFragment(ReferenceDataFragmentDoc, image);
   const heroImageLink = useFragment(LinkDataFragmentDoc, heroImage?.url);
   const heroImageSrc = new URL(
@@ -131,20 +129,10 @@ const HeroBlock: CmsComponent<HeroBlockDataFragment> = async ({
               </div>
             ) : null}
             {heading ? (
-              showChanges ? (
-                <>
-                  <h1
-                    data-epi-edit={inEditMode ? "Heading" : undefined}
-                    dangerouslySetInnerHTML={{ __html: heading }}
-                  ></h1>
-                  <p>Custom Changes</p>
-                </>
-              ) : (
-                <h1
-                  data-epi-edit={inEditMode ? "Heading" : undefined}
-                  dangerouslySetInnerHTML={{ __html: heading }}
-                ></h1>
-              )
+              <h1
+                data-epi-edit={inEditMode ? "Heading" : undefined}
+                dangerouslySetInnerHTML={{ __html: heading }}
+              ></h1>
             ) : inEditMode && !heading ? (
               <div className="mt-16 flex justify-end">
                 <div data-epi-edit={inEditMode ? "Heading" : undefined}>
