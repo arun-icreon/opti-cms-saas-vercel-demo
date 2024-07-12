@@ -25,6 +25,7 @@
     "@react-hook/window-size": "^3.1.1",
     "@remkoj/optimizely-cms-nextjs": "2.0.0",
     "@remkoj/optimizely-cms-react": "2.0.0",
+    "@remkoj/optimizely-frontend": "workspace:^",
     "@remkoj/optimizely-graph-cli": "2.0.0",
     "@remkoj/optimizely-graph-client": "2.0.0",
     "@remkoj/optimizely-graph-functions": "2.0.0",
