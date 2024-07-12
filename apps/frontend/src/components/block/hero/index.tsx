@@ -1,43 +1,61 @@
-import { useMemo } from 'react'
+import { useMemo } from "react";
 import Image from "next/image";
 import ButtonBlock from "../button-block";
 import { useFragment } from "@gql";
-import { HeroBlockDataFragmentDoc, ReferenceDataFragmentDoc, LinkDataFragmentDoc, type HeroBlockDataFragment} from '@gql/graphql'
+import {
+  HeroBlockDataFragmentDoc,
+  ReferenceDataFragmentDoc,
+  LinkDataFragmentDoc,
+  type HeroBlockDataFragment,
+} from "@gql/graphql";
 import { CmsComponent } from "@remkoj/optimizely-cms-react";
 import { getServerContext } from "@remkoj/optimizely-cms-react/rsc";
+import { showUpdates } from "../../../../flags";
 
-const HeroBlock: CmsComponent<HeroBlockDataFragment> = ({
+const HeroBlock: CmsComponent<HeroBlockDataFragment> = async ({
   data: {
     heroImage: image,
     eyebrow = "",
     heroHeading: heading = "",
-    heroDescription: description = { html: "", structure: "{}"},
+    heroDescription: description = { html: "", structure: "{}" },
     heroColor: color = "blue",
-    heroButton: button
-  }
+    heroButton: button,
+  },
 }) => {
-  const { inEditMode } = getServerContext()
-  const heroImage = useFragment(ReferenceDataFragmentDoc, image)
-  const heroImageLink = useFragment(LinkDataFragmentDoc, heroImage?.url)
-  const heroImageSrc = new URL(heroImageLink?.default ?? '/', heroImageLink?.base ?? 'https://example.com').href
-  const hasImage = heroImageLink != null && heroImageLink != undefined
+  const { inEditMode } = getServerContext();
+  const showChanges = await showUpdates();
+  const heroImage = useFragment(ReferenceDataFragmentDoc, image);
+  const heroImageLink = useFragment(LinkDataFragmentDoc, heroImage?.url);
+  const heroImageSrc = new URL(
+    heroImageLink?.default ?? "/",
+    heroImageLink?.base ?? "https://example.com"
+  ).href;
+  const hasImage = heroImageLink != null && heroImageLink != undefined;
 
   // Determine the classes based upon color and button being available
-  const [additionalClasses, innerClasses, buttonClassName] = useMemo<[Array<string>,Array<string>, string]>(() => {
+  const [additionalClasses, innerClasses, buttonClassName] = useMemo<
+    [Array<string>, Array<string>, string]
+  >(() => {
     const _additionalClasses: string[] = [];
     const _innerClasses: string[] = [];
+
     let _buttonClassName = "";
+
     switch (color) {
       case "dark-blue":
         _additionalClasses.push("bg-vulcan dark:bg-transparent");
-        _innerClasses.push("text-white prose-h3:text-white prose-h2:text-white");
+        _innerClasses.push(
+          "text-white prose-h3:text-white prose-h2:text-white"
+        );
         if (button) {
           _buttonClassName = "btn--light";
         }
         break;
       case "blue":
         _additionalClasses.push("bg-azure dark:bg-transparent");
-        _innerClasses.push("text-white prose-h3:text-white prose-h2:text-white");
+        _innerClasses.push(
+          "text-white prose-h3:text-white prose-h2:text-white"
+        );
         if (button) {
           _buttonClassName = "btn--light";
         }
@@ -62,21 +80,25 @@ const HeroBlock: CmsComponent<HeroBlockDataFragment> = ({
         break;
       case "red":
         _additionalClasses.push("bg-paleruby dark:bg-transparent");
-        _innerClasses.push("text-white prose-h3:text-white prose-h2:text-white");
+        _innerClasses.push(
+          "text-white prose-h3:text-white prose-h2:text-white"
+        );
         if (button) {
           _buttonClassName = "btn--light";
         }
         break;
       case "purple":
         _additionalClasses.push("bg-people-eater dark:bg-transparent");
-        _innerClasses.push("text-white prose-h3:text-white prose-h2:text-white");
+        _innerClasses.push(
+          "text-white prose-h3:text-white prose-h2:text-white"
+        );
         if (button) {
           _buttonClassName = "btn--light";
         }
         break;
     }
-    return [ _additionalClasses, _innerClasses, _buttonClassName ]
-  }, [ color, button ])
+    return [_additionalClasses, _innerClasses, _buttonClassName];
+  }, [color, button]);
 
   return (
     <section
@@ -109,10 +131,20 @@ const HeroBlock: CmsComponent<HeroBlockDataFragment> = ({
               </div>
             ) : null}
             {heading ? (
-              <h1
-                data-epi-edit={inEditMode ? "Heading" : undefined}
-                dangerouslySetInnerHTML={{ __html: heading }}
-              ></h1>
+              showChanges ? (
+                <>
+                  <h1
+                    data-epi-edit={inEditMode ? "Heading" : undefined}
+                    dangerouslySetInnerHTML={{ __html: heading }}
+                  ></h1>
+                  <p>Custom Changes</p>
+                </>
+              ) : (
+                <h1
+                  data-epi-edit={inEditMode ? "Heading" : undefined}
+                  dangerouslySetInnerHTML={{ __html: heading }}
+                ></h1>
+              )
             ) : inEditMode && !heading ? (
               <div className="mt-16 flex justify-end">
                 <div data-epi-edit={inEditMode ? "Heading" : undefined}>
@@ -157,13 +189,13 @@ const HeroBlock: CmsComponent<HeroBlockDataFragment> = ({
               <Image
                 data-epi-edit={inEditMode ? "HeroImage" : undefined}
                 className="rounded-[40px] w-full"
-                src={ heroImageSrc }
+                src={heroImageSrc}
                 alt={""}
                 width={600}
                 height={500}
               />
             </div>
-          ) : inEditMode && !( hasImage ) ? (
+          ) : inEditMode && !hasImage ? (
             <div className="mt-16 flex justify-end">
               <ButtonBlock
                 buttonType={"primary"}
