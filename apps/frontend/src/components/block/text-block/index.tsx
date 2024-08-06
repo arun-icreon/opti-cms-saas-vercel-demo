@@ -1,7 +1,8 @@
 import type * as GraphQL from "@gql/graphql";
 import { gql } from "@gql/gql";
 import { CmsComponent } from "@remkoj/optimizely-cms-react";
-import { showUpdates } from "../../../../flags";
+import { showUpdates } from "@/flags";
+//import { showUpdates } from "../../../../flags";
 
 const TextBlock: CmsComponent<GraphQL.TextBlockDataFragment> = async ({
   data,
