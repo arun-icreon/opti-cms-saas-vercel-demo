@@ -38,5 +38,8 @@
     "uuid": "^9.0.1",
     "typescript": "^5.4.3",
     "undici": "^6.9.0"
+  },
+  "dependencies": {
+    "@vercel/flags": "^2.6.0"
   }
 }
