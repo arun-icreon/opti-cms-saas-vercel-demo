@@ -9,7 +9,7 @@ const TextBlock: CmsComponent<GraphQL.TextBlockDataFragment> = async ({
   inEditMode,
 }) => {
   const showChanges = await showUpdates();
-
+  console.log(showChanges, " showChanges ");
   const {
     className = "",
     center = false,

@@ -36,6 +36,7 @@
     "@vercel/flags": "^2.6.0",
     "@vercel/speed-insights": "^1.0.12",
     "@vercel/stega": "^0.1.2",
+    "@vercel/toolbar": "^0.1.15",
     "autoprefixer": "10.4.19",
     "clsx": "^2.1.1",
     "crypto-js": "^4.2.0",
