@@ -12,5 +12,9 @@ export async function GET(request: NextRequest) {
   console.log(access, " access ");
 
   if (!access) return NextResponse.json(null, { status: 401 });
+  console.log(
+    "getProviderData(flags) ",
+    NextResponse.json<ApiData>(getProviderData(flags))
+  );
   return NextResponse.json<ApiData>(getProviderData(flags));
 }
