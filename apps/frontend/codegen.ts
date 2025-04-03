@@ -1,22 +1,10 @@
-// Environment file parsing and updating
-import * as DotEnv from 'dotenv'
-import { expand } from 'dotenv-expand'
-import path from 'node:path'
-import fs from 'node:fs'
+// Leverage Next.JS configuration loading
+import { loadEnvConfig } from '@next/env'
 import figures from 'figures'
 import chalk from 'chalk'
-
-// Process environment files, to ensure the enviornment configuration is applied
-const envFiles : string[] = [".env", ".env.local"]
-if (process.env.NODE_ENV) {
-    envFiles.push(`.env.${ process.env.NODE_ENV }`)
-    envFiles.push(`.env.${ process.env.NODE_ENV }.local`)
-}
-envFiles.map(s => path.join(process.cwd(), s)).filter(s => fs.existsSync(s)).reverse().forEach(fileName => {
-    var result = DotEnv.config({ path: fileName, override: false })
-    expand(result)
-    console.log(`${ chalk.greenBright(figures.tick) } Processed ${fileName}`)
-})
+const loadEnvResult = loadEnvConfig(__dirname, undefined, console)
+console.log(`${ chalk.greenBright(figures.tick) } Optimizely CMS Configuration`)
+console.log(`  - Environments: ${ loadEnvResult.loadedEnvFiles.map(x => x.path).join(', ') }`)
 
 // Actual code generation setup
 import type { CodegenConfig  } from '@graphql-codegen/cli'
@@ -29,19 +17,17 @@ const config: CodegenConfig = {
     documents: [
         // Add local GraphQL files
         'src/**/*.graphql',
-
-        // Add Definitions from components
-        'src/**/!(*.d).{ts,tsx}'
     ],
     generates: {
         './gql/': {
+            //documents: ['opti-cms:/queries/13', 'opti-cms:/fragments/13'],
             preset: OptimizelyGraphPreset,
             presetConfig: {
                 // By default the preset will generate recursive queries
                 // untill multiple recursions are supported, this needs to
                 // be disabled when there's more then one component that
                 // will use recursion
-                recursion: false,
+                recursion: true,
 
                 // The GQL tag to be used to identify inline GraphQL queries
                 gqlTagName: 'gql',
@@ -53,22 +39,49 @@ const config: CodegenConfig = {
                 // - BlockData => For everyting that can be rendered as individual component
                 // - ElementData => For all element types that are useable within Visual Builder
                 injections: [
+                    // Add Page/Experience GraphQL Files
                     {
-                        // Add from all pages, except colocated blocks
                         into: "PageData",
-                        pathRegex: "src\/components\/page.*(?<!block\.tsx)$"
+                        pathRegex: "src\/components\/cms\/.*\.page\.graphql"
                     },
                     {
-                        // Add from all blocks, included blocks colocated with pages
+                        into: "PageData",
+                        pathRegex: "src\/components\/cms\/.*\.experience\.graphql"
+                    },
+
+                    // Add Block/Component/Section GraphQL Files
+                    {
                         into: "BlockData",
-                        pathRegex: "src\/components\/(block.*|page.*block.[tj]s[x]{0,1})$"
+                        pathRegex: "src\/components\/cms\/.*\.block\.graphql"
                     },
                     {
-                        // Add from all blocks
                         into: "BlockData",
-                        pathRegex: "src\/components\/block"
+                        pathRegex: "src\/components\/cms\/.*\.component\.graphql"
+                    },
+                    {
+                        into: "BlockData",
+                        pathRegex: "src\/components\/cms\/.*\.section\.graphql"
+                    },
+
+                    // Add Element GraphQL Files
+                    {
+                        into: "ElementData",
+                        pathRegex: "src\/components\/cms\/.*\.element\.graphql"
+                    },
+
+                    // Implementation Specific: Add Search GraphQL Files
+                    {
+                        into: "SearchData",
+                        pathRegex: "src\/components\/cms\/.*\.search\.graphql"
+                    },
+
+                    // Implementation Specific: Add ContentArea items
+                    {
+                        into: "IContentListItem",
+                        pathRegex: "src\/components\/cms\/.*\.contentarea\.graphql"
                     }
-                ],
+
+                ]
             } as OptimizelyGraphPresetOptions
         }
     },

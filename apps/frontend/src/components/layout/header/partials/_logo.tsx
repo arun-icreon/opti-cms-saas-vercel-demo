@@ -1,24 +1,34 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
-import { forwardRef } from "react";
+import { type FunctionComponent } from "react";
+import useFlag from "@/useFlag";
 
-const Logo = forwardRef<HTMLDivElement>((props, ref) => {
+type LogoProps = JSX.IntrinsicElements["a"] & {
+  logo?: string;
+};
+
+export const Logo: FunctionComponent<LogoProps> = ({
+  logo = "/assets/moseybank-logo.svg",
+  ...divProps
+}) => {
+  const { logo: logoUrl } = useFlag("layout_configuration", {
+    logo,
+    theme_switcher: false,
+  });
   return (
-    <div className="flex align-middle" ref={ref}>
-      <Link href="/" className="mr-[28px]">
-        <Image
-          src="/assets/moseybank-logo.svg"
-          alt="Mosey Bank Logo"
-          width={200}
-          height={36}
-          unoptimized
-          priority
-          className="dark:brightness-0	dark:invert"
-        />
-      </Link>
-    </div>
+    <Link href="/" className="flex items-center grow-0 shrink-0" {...divProps}>
+      <Image
+        src={logoUrl}
+        alt="Mosey Bank Logo"
+        fill
+        unoptimized
+        priority
+        className="dark:brightness-0	dark:invert !w-auto !h-12 !relative"
+      />
+    </Link>
   );
-});
+};
 
 Logo.displayName = "Logo";
 

@@ -1,25 +1,22 @@
-import { getFactory, setFactory, type ComponentFactory } from '@remkoj/optimizely-cms-react'
-import { DefaultComponents } from '@remkoj/optimizely-cms-react/components'
+import 'server-only'
+import { type ComponentFactory, DefaultComponentFactory, RichTextComponentDictionary } from '@remkoj/optimizely-cms-react/rsc'
 import { cache } from 'react'
-import pageComponents from './page'
-import blockComponents from './block'
-import Link from 'next/link'
-import Fragment from './fragment'
+import cmsComponents from './cms'
 
-let setupExecuted = false;
-
+/**
+ * Get the cached version of the Component Factory to use, this ensure that the
+ * minimum number of instances of the factory will be created.
+ */
 export const setupFactory = cache<() => ComponentFactory>(() => 
 {
-    const factory = getFactory()
-    if (!setupExecuted) {
-        factory.registerAll(DefaultComponents)
-        factory.registerAll(pageComponents)
-        factory.registerAll(blockComponents)
-        factory.register('a', Link)
-        factory.register('$$fragment$$', Fragment)
-        setFactory(factory)
-        setupExecuted = true
-    }
+    const factory = new DefaultComponentFactory()
+
+    // Add support for Rich Text
+    factory.registerAll(RichTextComponentDictionary)
+
+    // Add support for Frontend defined components
+    factory.registerAll(cmsComponents)
+
     return factory
 })
 

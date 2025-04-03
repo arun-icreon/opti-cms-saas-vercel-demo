@@ -2,21 +2,28 @@
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
 
+> [!IMPORTANT]  
+> The latest version of this site contains a new content pack and schema. When updating an existing site, make sure to [apply the latest content pack](#3-content-pack-upgrade). If you need to, you can use the ["CMS Reset" command line tool](https://github.com/remkoj/optimizely-dxp-clients/tree/main/packages/optimizely-cms-cli#3-available-commands) to clear your current instance.
+
 ## Contents <!-- omit in toc -->
-- [Introduction](#introduction)
-- [Getting started](#getting-started)
-  - [Requirements](#requirements)
-  - [Deploying \& Configuring](#deploying--configuring)
-  - [Additional configuration options](#additional-configuration-options)
-- [Further documentation](#further-documentation)
-- [Included packages](#included-packages)
+- [1. Introduction](#1-introduction)
+- [2. Getting started](#2-getting-started)
+  - [2.1. Requirements](#21-requirements)
+  - [2.2. Deploying \& Configuring](#22-deploying--configuring)
+  - [2.3. Additional configuration options](#23-additional-configuration-options)
+- [3. Content pack upgrade](#3-content-pack-upgrade)
+- [4. Product specific instructions](#4-product-specific-instructions)
+  - [4.1. Content Recommendations](#41-content-recommendations)
+- [5. Further documentation](#5-further-documentation)
 
 
-## Introduction
-This repository contains the packages and applications that form the Optimizely CMS Demo Site.
+## 1. Introduction
+This repository contains content and frontend that form the Optimizely SaaS CMS Demo Site. 
 
-## Getting started
-### Requirements
+If you're looking to build a new site from scratch, please use the [Create Next App Template](https://github.com/remkoj/optimizely-saas-starter) to create an empty frontend using the same structure and tooling as this demo site.
+
+## 2. Getting started
+### 2.1. Requirements
 Make sure you're good to go, by:
 - Requesting an Optimizely CMS instance using [Sign-up for the program](https://www.optimizely.com/saas-core-waitlist/)
 - Ensure you have a GitHub account
@@ -24,7 +31,7 @@ Make sure you're good to go, by:
 
 After signing up for the beta instance and provisioning of the instance, you'll get an e-mail with the keys and instructions to activate your account.
 
-### Deploying & Configuring
+### 2.2. Deploying & Configuring
 [Follow these instructions to configure the CMS](docs/cms-config.md)
 
 After you've completed the CMS configuration instructions and collected the needed information, click the "Deploy to vercel" button below, to deploy this site to your Vercel Account
@@ -38,30 +45,40 @@ After you've completed the CMS configuration instructions and collected the need
 | OPTIMIZELY_GRAPH_APP_KEY | The Content Graph App key, which is shown on the CMS Dashboard, within the "Render Content" section. |
 | OPTIMIZELY_GRAPH_SINGLE_KEY | The Content Graph Single key	, which is shown on the CMS Dashboard, within the "Render Content" section. |
 
-When the deployment has succeeded, the following steps are needed to enable "On Page Editing" or "In Context Editing".
+When the deployment has succeeded, the following steps are needed to both fix the "Page not found" on the homepage and enable  "Preview".
 
-[Enable on-page / in context editing](docs/editing.md)
+[Fix "Not Found" error and enable preview](docs/editing.md)
 
-### Additional configuration options
+### 2.3. Additional configuration options
 
-Please refer to the [Supported environment variables](docs/env-vars.md) document for all supported configuration options for the frontend. The steps above only outine the mimimum required configuration to obtain a working demo site. ***Please note:** every configuration change to the environment variables requires a new deployment to become active.*
+Please refer to the [Supported environment variables](docs/env-vars.md) document for all supported configuration options for the frontend. The steps above only outine the mimimum required configuration to obtain a working demo site. Many of the included features require additional configuration to be enabled.
 
-## Further documentation
+***Please note:** every configuration change to the environment variables requires a new deployment to become active.*
+
+## 3. Content pack upgrade
+When installing the latest version of this demo site, you might need to apply a content pack update.
+
+> [!IMPORTANT]  
+> When the currently installed contentpack was not provided from this repository (for example from the visual-builder-beta), the content cannot be upgraded due to conflicts. Use the ["CMS Reset" command line tool](https://github.com/remkoj/optimizely-dxp-clients/tree/main/packages/optimizely-cms-cli#3-available-commands) to clean your CMS instance and start fresh.
+
+To upgrade the content pack, take these steps:
+- Import the new content pack as described on [Configuring the CMS](docs/cms-config.md). The only difference here is that you will ***not create*** a new Application, but update the existing one use the newly imported homepage.
+- Make sure to run the Graph Full Index as specified
+
+Running this upgrade process will yield you a working demo site, however it will now contain content-types that are no longer supported. If you need them back you can restore the code from `apps/old_cms_types` in your fork/clone of this repository.
+
+## 4. Product specific instructions
+### 4.1. Content Recommendations
+For Content Recommendations to work, the following steps are needed:
+1. Configure Content Recommendations using the environment variables of the [`Next.JS Optimizely One package`](https://www.npmjs.com/package/@remkoj/optimizely-one-nextjs#252-list-of-supported-environment-variables)
+2. Add the Content Recommendations widget using either the block (Page) or element (Experience), you will need to configure:
+   - The API Key of the delivery, which is shown as value of 'data-api-key=' in the example code within Content Recommendations
+   - The number of recommendations to show
+
+## 5. Further documentation
 * [Local development](docs/dev-env.md)
 * [CMS Configuration](docs/cms-config.md)
 * [Enable on-page / in context editing](docs/editing.md)
 * [Supported environment variables](docs/env-vars.md)
 * [Custom demo building](docs/demo-building.md)
 * [General solution description](docs/solution/index.md)
-
-## Included packages
-This project uses a mono-repository to hold both the main frontend application, as well as the supporting packages. The following packages are included in this repository:
-
-| Package import | Short description | Documentation |
-| - | - | - |
-| @remkoj/optimizely-dxp-cli | Command line utitilities to work with the Optimizely CMS - SaaS Core and Content Graph | [Available in the package README.md](packages/remkoj/optimizely-dxp-cli/README.md)
-| @remkoj/optimizely-dxp-nextjs | Extensions for Next.JS and standard implementation components for Optimizely CMS - SaaS Core  | [Available in the package README.md](packages/remkoj/optimizely-dxp-nextjs/README.md)
-| @remkoj/optimizely-dxp-react | React client components, with SSR support, to render content from Optimizely Content Graph | [Available in the package README.md](packages/remkoj/optimizely-dxp-react/README.md)
-| @remkoj/optimizely-dxp-react-server | React server components, to render content from Optimizely Content Graph | [Available in the package README.md](packages/remkoj/optimizely-dxp-react-server/README.md)
-| @remkoj/optimizely-graph-functions | GraphQL Codegen plugin to dynamically build functions that load the correct fields for each content item on a generic lookup. Used for the "getContentByPath" and "getContentById" methods of the sample site. | [Available in the package README.md](packages/remkoj/optimizely-graph-functions/README.md)
-| @remkoj/optimizely-one-nextjs | React components (both client & server) to integrate the browser-side products from Optimizely (Web Experimentation, Data Platform & Content Analytics / Recommendations) | [Available in the package README.md](packages/remkoj/optimizely-one-nextjs/README.md)

@@ -2,14 +2,33 @@ import type * as Schema from "./graphql";
 import type { GraphQLClient, RequestOptions } from 'graphql-request';
 import gql from 'graphql-tag';
 type GraphQLClientRequestHeaders = RequestOptions['requestHeaders'];
-export const LinkDataFragmentDoc = /*#__PURE__*/ gql`
+export const LinkDataFragmentDoc = gql`
     fragment LinkData on ContentUrl {
   base
   hierarchical
   default
 }
     `;
-export const IContentInfoFragmentDoc = /*#__PURE__*/ gql`
+export const ReferenceDataFragmentDoc = gql`
+    fragment ReferenceData on ContentReference {
+  key
+  url {
+    ...LinkData
+  }
+}
+    `;
+export const PageSeoSettingsPropertyDataFragmentDoc = gql`
+    fragment PageSeoSettingsPropertyData on PageSeoSettingsProperty {
+  MetaTitle
+  MetaDescription
+  MetaKeywords
+  SharingImage {
+    ...ReferenceData
+  }
+  GraphType
+}
+    `;
+export const IContentInfoFragmentDoc = gql`
     fragment IContentInfo on IContentMetadata {
   key
   locale
@@ -21,20 +40,338 @@ export const IContentInfoFragmentDoc = /*#__PURE__*/ gql`
   }
 }
     `;
-export const IElementDataFragmentDoc = /*#__PURE__*/ gql`
-    fragment IElementData on _IElement {
+export const IContentDataFragmentDoc = gql`
+    fragment IContentData on _IContent {
   _metadata {
     ...IContentInfo
   }
   _type: __typename
 }
     `;
-export const ElementDataFragmentDoc = /*#__PURE__*/ gql`
-    fragment ElementData on _IElement {
+export const BlockDataFragmentDoc = gql`
+    fragment BlockData on _IComponent {
+  ...IContentData
+}
+    `;
+export const IElementDataFragmentDoc = gql`
+    fragment IElementData on _IComponent {
+  _metadata {
+    ...IContentInfo
+  }
+  _type: __typename
+}
+    `;
+export const ElementDataFragmentDoc = gql`
+    fragment ElementData on _IComponent {
   ...IElementData
 }
     `;
-export const CompositionDataFragmentDoc = /*#__PURE__*/ gql`
+export const ArticleListElementDataFragmentDoc = gql`
+    fragment ArticleListElementData on ArticleListElement {
+  articleListCount
+  topics
+}
+    `;
+export const ButtonBlockDataFragmentDoc = gql`
+    fragment ButtonBlockData on ButtonBlock {
+  children: ButtonText
+  url: ButtonUrl {
+    ...LinkData
+  }
+  className: ButtonClass
+  buttonType: ButtonType
+  buttonVariant: ButtonVariant
+}
+    `;
+export const CTAElementDataFragmentDoc = gql`
+    fragment CTAElementData on CTAElement {
+  cta_text: Text
+  cta_link: Link {
+    ...LinkData
+  }
+}
+    `;
+export const IContentListItemFragmentDoc = gql`
+    fragment IContentListItem on _IContent {
+  ...IContentData
+}
+    `;
+export const ImageMediaComponentDataFragmentDoc = gql`
+    fragment ImageMediaComponentData on ImageMedia {
+  alt: AltText
+  meta: _metadata {
+    url {
+      default
+    }
+    name: displayName
+  }
+}
+    `;
+export const VideoMediaComponentDataFragmentDoc = gql`
+    fragment VideoMediaComponentData on VideoMedia {
+  meta: _metadata {
+    url {
+      default
+    }
+    name: displayName
+  }
+}
+    `;
+export const ContentRecsElementDataFragmentDoc = gql`
+    fragment ContentRecsElementData on ContentRecsElement {
+  ElementDeliveryApiKey
+  ElementRecommendationCount
+}
+    `;
+export const HeadingElementDataFragmentDoc = gql`
+    fragment HeadingElementData on HeadingElement {
+  headingText
+}
+    `;
+export const ButtonBlockPropertyDataFragmentDoc = gql`
+    fragment ButtonBlockPropertyData on ButtonBlockProperty {
+  children: ButtonText
+  url: ButtonUrl {
+    ...LinkData
+  }
+  className: ButtonClass
+  buttonType: ButtonType
+  buttonVariant: ButtonVariant
+}
+    `;
+export const HeroBlockDataFragmentDoc = gql`
+    fragment HeroBlockData on HeroBlock {
+  heroImage: HeroImage {
+    ...ReferenceData
+  }
+  eyebrow: Eyebrow
+  heroHeading: Heading
+  heroSubheading: SubHeading
+  heroDescription: Description {
+    json
+    html
+  }
+  heroColor: HeroColor
+  heroButton: HeroButton {
+    ...ButtonBlockPropertyData
+  }
+}
+    `;
+export const ImageElementDataFragmentDoc = gql`
+    fragment ImageElementData on ImageElement {
+  altText
+  imageLink {
+    ...ReferenceData
+  }
+}
+    `;
+export const LinkItemDataFragmentDoc = gql`
+    fragment LinkItemData on Link {
+  title
+  text
+  target
+  url {
+    ...LinkData
+  }
+}
+    `;
+export const LayoutSettingsBlockDataFragmentDoc = gql`
+    fragment LayoutSettingsBlockData on LayoutSettingsBlock {
+  mainMenu {
+    ...IContentListItem
+    ...ImageMediaComponentData
+    ...VideoMediaComponentData
+  }
+  contactInfoHeading
+  serviceButtons {
+    ...IContentListItem
+    ...ImageMediaComponentData
+    ...VideoMediaComponentData
+  }
+  contactInfo {
+    json
+    html
+  }
+  footerMenus {
+    ...IContentListItem
+    ...ImageMediaComponentData
+    ...VideoMediaComponentData
+  }
+  copyright
+  legalLinks {
+    ...LinkItemData
+  }
+  appIdentifiers
+}
+    `;
+export const MenuNavigationBlockDataFragmentDoc = gql`
+    fragment MenuNavigationBlockData on MenuNavigationBlock {
+  _metadata {
+    displayName
+  }
+  MenuNavigationHeading
+  NavigationLinks {
+    ...LinkItemData
+  }
+}
+    `;
+export const BlogPostPageMenuBlockFragmentDoc = gql`
+    fragment BlogPostPageMenuBlock on BlogPostPage {
+  meta: _metadata {
+    published
+    url {
+      ...LinkData
+    }
+  }
+  topics: Topic
+  heading: Heading
+  author: ArticleAuthor
+  image: BlogPostPromoImage {
+    ...ReferenceData
+  }
+  sharing: SeoSettings {
+    description: MetaDescription
+    image: SharingImage {
+      ...ReferenceData
+    }
+  }
+}
+    `;
+export const MegaMenuGroupBlockDataFragmentDoc = gql`
+    fragment MegaMenuGroupBlockData on MegaMenuGroupBlock {
+  _metadata {
+    displayName
+  }
+  MenuMenuHeading
+  MegaMenuUrl {
+    ...LinkData
+  }
+  MegaMenuContentArea {
+    ...IContentData
+    ...MenuNavigationBlockData
+    ...BlogPostPageMenuBlock
+  }
+}
+    `;
+export const OdpEmbedBlockDataFragmentDoc = gql`
+    fragment OdpEmbedBlockData on OdpEmbedBlock {
+  ContentId
+}
+    `;
+export const PageSeoSettingsDataFragmentDoc = gql`
+    fragment PageSeoSettingsData on PageSeoSettings {
+  MetaTitle
+  MetaDescription
+  MetaKeywords
+  SharingImage {
+    ...ReferenceData
+  }
+  GraphType
+}
+    `;
+export const ParagraphElementDataFragmentDoc = gql`
+    fragment ParagraphElementData on ParagraphElement {
+  text {
+    json
+  }
+}
+    `;
+export const QuoteBlockDataFragmentDoc = gql`
+    fragment QuoteBlockData on QuoteBlock {
+  quote: QuoteText
+  color: QuoteColor
+  active: QuoteActive
+  name: QuoteProfileName
+  profilePicture: QuoteProfilePicture {
+    ...ReferenceData
+  }
+  location: QuoteProfileLocation
+}
+    `;
+export const RichTextElementDataFragmentDoc = gql`
+    fragment RichTextElementData on RichTextElement {
+  text {
+    json
+    html
+  }
+}
+    `;
+export const TestimonialElementDataFragmentDoc = gql`
+    fragment TestimonialElementData on TestimonialElement {
+  customerName
+  customerLocation
+  customerImage {
+    ...ReferenceData
+  }
+  referenceTitle
+  referenceText {
+    json
+  }
+}
+    `;
+export const TextBlockDataFragmentDoc = gql`
+    fragment TextBlockData on TextBlock {
+  overline: TextBlockOverline
+  headingSize: TextBlockHeadingSize
+  heading: TextBlockHeading
+  description: TextBlockDescription {
+    json
+    html
+  }
+  center: TextCenter
+  width: TextBlockWidth
+  className: TextClassName
+}
+    `;
+export const VideoElementDataFragmentDoc = gql`
+    fragment VideoElementData on VideoElement {
+  title
+  video {
+    ...ReferenceData
+  }
+  placeholder {
+    ...ReferenceData
+  }
+}
+    `;
+export const BlankSectionDataFragmentDoc = gql`
+    fragment BlankSectionData on BlankSection {
+  _metadata {
+    key
+  }
+}
+    `;
+export const CarouselBlockDataFragmentDoc = gql`
+    fragment CarouselBlockData on CarouselBlock {
+  CarouselItemsContentArea {
+    ...IContentListItem
+    ...BlockData
+    ...ImageMediaComponentData
+    ...VideoMediaComponentData
+    ...ArticleListElementData
+    ...ButtonBlockData
+    ...CTAElementData
+    ...CarouselBlockData
+    ...ContentRecsElementData
+    ...HeadingElementData
+    ...HeroBlockData
+    ...ImageElementData
+    ...LayoutSettingsBlockData
+    ...MegaMenuGroupBlockData
+    ...MenuNavigationBlockData
+    ...OdpEmbedBlockData
+    ...PageSeoSettingsData
+    ...ParagraphElementData
+    ...QuoteBlockData
+    ...RichTextElementData
+    ...TestimonialElementData
+    ...TextBlockData
+    ...VideoElementData
+    ...BlankSectionData
+  }
+}
+    `;
+export const CompositionDataFragmentDoc = gql`
     fragment CompositionData on ICompositionNode {
   name: displayName
   layoutType: nodeType
@@ -50,37 +387,55 @@ export const CompositionDataFragmentDoc = /*#__PURE__*/ gql`
       name: displayName
     }
   }
-  ... on ICompositionElementNode {
-    element {
+  ... on ICompositionComponentNode {
+    component {
+      ...BlockData
       ...ElementData
+      ...ArticleListElementData
+      ...ButtonBlockData
+      ...CTAElementData
+      ...CarouselBlockData
+      ...ContentRecsElementData
+      ...HeadingElementData
+      ...HeroBlockData
+      ...ImageElementData
+      ...LayoutSettingsBlockData
+      ...MegaMenuGroupBlockData
+      ...MenuNavigationBlockData
+      ...OdpEmbedBlockData
+      ...PageSeoSettingsData
+      ...ParagraphElementData
+      ...QuoteBlockData
+      ...RichTextElementData
+      ...TestimonialElementData
+      ...TextBlockData
+      ...VideoElementData
+      ...BlankSectionData
     }
   }
 }
     `;
-export const ExperienceDataFragmentDoc = /*#__PURE__*/ gql`
+export const ExperienceDataFragmentDoc = gql`
     fragment ExperienceData on _IExperience {
   composition {
     ...CompositionData
   }
 }
     `;
-export const IContentDataFragmentDoc = /*#__PURE__*/ gql`
-    fragment IContentData on _IContent {
-  _metadata {
-    ...IContentInfo
+export const BlankExperienceDataFragmentDoc = gql`
+    fragment BlankExperienceData on BlankExperience {
+  BlankExperienceSeoSettings {
+    ...PageSeoSettingsPropertyData
   }
-  _type: __typename
+  ...ExperienceData
 }
     `;
-export const ReferenceDataFragmentDoc = /*#__PURE__*/ gql`
-    fragment ReferenceData on ContentReference {
-  key
-  url {
-    ...LinkData
-  }
+export const BlogSectionExperienceDataFragmentDoc = gql`
+    fragment BlogSectionExperienceData on BlogSectionExperience {
+  ...ExperienceData
 }
     `;
-export const BlogPostPageDataFragmentDoc = /*#__PURE__*/ gql`
+export const BlogPostPageDataFragmentDoc = gql`
     fragment BlogPostPageData on BlogPostPage {
   blogTitle: Heading
   blogSubtitle: ArticleSubHeading
@@ -91,402 +446,231 @@ export const BlogPostPageDataFragmentDoc = /*#__PURE__*/ gql`
     json
   }
   blogAuthor: ArticleAuthor
+  blogTopics: Topic
+  continueReading {
+    ...IContentListItem
+    ...BlockData
+    ...ImageMediaComponentData
+    ...VideoMediaComponentData
+    ...ArticleListElementData
+    ...ButtonBlockData
+    ...CTAElementData
+    ...CarouselBlockData
+    ...ContentRecsElementData
+    ...HeadingElementData
+    ...HeroBlockData
+    ...ImageElementData
+    ...LayoutSettingsBlockData
+    ...MegaMenuGroupBlockData
+    ...MenuNavigationBlockData
+    ...OdpEmbedBlockData
+    ...PageSeoSettingsData
+    ...ParagraphElementData
+    ...QuoteBlockData
+    ...RichTextElementData
+    ...TestimonialElementData
+    ...TextBlockData
+    ...VideoElementData
+    ...BlankSectionData
+  }
 }
     `;
-export const BlogListingBlockDataFragmentDoc = /*#__PURE__*/ gql`
-    fragment BlogListingBlockData on BlogListingBlock {
+export const BlogPostPageSearchResultFragmentDoc = gql`
+    fragment BlogPostPageSearchResult on BlogPostPage {
+  title: Heading
+  image: BlogPostPromoImage {
+    ...ReferenceData
+  }
+  author: ArticleAuthor
+  seodata: SeoSettings {
+    MetaTitle
+    MetaDescription
+  }
   _metadata {
-    name: displayName
-  }
-  showFilters: BlogListingShowFilters
-  selectedPageSize: BlogListingItemCount
-}
-    `;
-export const CardBlockDataFragmentDoc = /*#__PURE__*/ gql`
-    fragment CardBlockData on CardBlock {
-  cardButton: CardButton {
-    className: ButtonClass
-    children: ButtonText
-    buttonType: ButtonType
-    url: ButtonUrl {
-      ...LinkData
-    }
-    buttonVariant: ButtonVariant
-  }
-  cardColor: CardColor
-  cardDescription: CardDescription {
-    json
-    html
-  }
-  cardHeading: CardHeading
-  cardIcon: CardIcon {
-    ...ReferenceData
-  }
-  cardImage: CardImage {
-    ...ReferenceData
-  }
-  cardSubheading: CardSubHeading
-  cardImageLayout: ImageLayout
-}
-    `;
-export const IContentListItemFragmentDoc = /*#__PURE__*/ gql`
-    fragment IContentListItem on _IContent {
-  ...IContentData
-}
-    `;
-export const CarouselBlockDataFragmentDoc = /*#__PURE__*/ gql`
-    fragment CarouselBlockData on CarouselBlock {
-  CarouselItemsContentArea {
-    ...IContentListItem
+    published
   }
 }
     `;
-export const LayoutContainerBlockDataFragmentDoc = /*#__PURE__*/ gql`
-    fragment LayoutContainerBlockData on LayoutContainerBlock {
-  columns: ColumnsCount
-  containerColor: ContainerBackgroundColor
-  backgroundImage: ContainerBackgroundImage {
-    ...ReferenceData
-  }
-  marginBottom: ContainerMarginBottom
-  marginTop: ContainerMarginTop
-  paddingBottom: ContainerPaddingBottom
-  paddingTop: ContainerPaddingTop
-  gap: GapSize
-  LayoutContentArea {
-    ...IContentListItem
-  }
-}
-    `;
-export const HomeHeroBlockDataFragmentDoc = /*#__PURE__*/ gql`
-    fragment HomeHeroBlockData on HomePageHeroBlock {
-  homeHeroHeading: HomeHeroBlockHeading
-  homeHeroSubheading: HomeHeroBlockSubHeading
-  homeHeroButton: HomeHeroButtonBlock {
-    className: ButtonClass
-    children: ButtonText
-    buttonType: ButtonType
-    url: ButtonUrl {
-      ...LinkData
-    }
-    buttonVariant: ButtonVariant
-  }
-  leftImage: HomeHeroLeftImage {
-    ...ReferenceData
-  }
-  rightImage: HomeHeroRightImage {
-    ...ReferenceData
-  }
-}
-    `;
-export const HeroBlockDataFragmentDoc = /*#__PURE__*/ gql`
-    fragment HeroBlockData on HeroBlock {
-  heroHeading: Heading
-  heroSubheading: SubHeading
-  heroButton: HeroButton {
-    className: ButtonClass
-    children: ButtonText
-    buttonType: ButtonType
-    url: ButtonUrl {
-      ...LinkData
-    }
-    buttonVariant: ButtonVariant
-  }
-  heroColor: HeroColor
-  heroDescription: Description {
-    html
-    json
-  }
-  eyebrow: Eyebrow
-  heroImage: HeroImage {
-    ...ReferenceData
-  }
-}
-    `;
-export const OdpEmbedBlockDataFragmentDoc = /*#__PURE__*/ gql`
-    fragment OdpEmbedBlockData on OdpEmbedBlock {
-  ContentId
-}
-    `;
-export const QuoteBlockDataFragmentDoc = /*#__PURE__*/ gql`
-    fragment QuoteBlockData on QuoteBlock {
-  quote: QuoteText
-  color: QuoteColor
-  active: QuoteActive
-  name: QuoteProfileName
-  profilePicture: QuoteProfilePicture {
-    ...ReferenceData
-  }
-  location: QuoteProfileLocation
-}
-    `;
-export const TextBlockDataFragmentDoc = /*#__PURE__*/ gql`
-    fragment TextBlockData on TextBlock {
-  overline: TextBlockOverline
-  headingSize: TextBlockHeadingSize
-  heading: TextBlockHeading
-  description: TextBlockDescription {
-    json
-    html
-  }
-  center: TextCenter
-  width: TextBlockWidth
-  className: TextClassName
-}
-    `;
-export const BlockDataFragmentDoc = /*#__PURE__*/ gql`
-    fragment BlockData on _IContent {
-  ...IContentData
-  ...BlogListingBlockData
-  ...CardBlockData
-  ...CarouselBlockData
-  ...LayoutContainerBlockData
-  ...HomeHeroBlockData
-  ...HeroBlockData
-  ...OdpEmbedBlockData
-  ...QuoteBlockData
-  ...TextBlockData
-}
-    `;
-export const LandingPageDataFragmentDoc = /*#__PURE__*/ gql`
+export const LandingPageDataFragmentDoc = gql`
     fragment LandingPageData on LandingPage {
   TopContentArea {
     ...BlockData
+    ...ArticleListElementData
+    ...ButtonBlockData
+    ...CTAElementData
+    ...CarouselBlockData
+    ...ContentRecsElementData
+    ...HeadingElementData
+    ...HeroBlockData
+    ...ImageElementData
+    ...LayoutSettingsBlockData
+    ...MegaMenuGroupBlockData
+    ...MenuNavigationBlockData
+    ...OdpEmbedBlockData
+    ...PageSeoSettingsData
+    ...ParagraphElementData
+    ...QuoteBlockData
+    ...RichTextElementData
+    ...TestimonialElementData
+    ...TextBlockData
+    ...VideoElementData
+    ...BlankSectionData
   }
   MainContentArea {
     ...BlockData
+    ...ArticleListElementData
+    ...ButtonBlockData
+    ...CTAElementData
+    ...CarouselBlockData
+    ...ContentRecsElementData
+    ...HeadingElementData
+    ...HeroBlockData
+    ...ImageElementData
+    ...LayoutSettingsBlockData
+    ...MegaMenuGroupBlockData
+    ...MenuNavigationBlockData
+    ...OdpEmbedBlockData
+    ...PageSeoSettingsData
+    ...ParagraphElementData
+    ...QuoteBlockData
+    ...RichTextElementData
+    ...TestimonialElementData
+    ...TextBlockData
+    ...VideoElementData
+    ...BlankSectionData
   }
 }
     `;
-export const StandardPageDataFragmentDoc = /*#__PURE__*/ gql`
-    fragment StandardPageData on StandardPage {
-  sptitle: StandardPageHeading
-  spsubtitle: StandardSubHeading
-  spimage: StandardPromoImage {
-    ...ReferenceData
-  }
-  spdescription: MainBody {
-    json
-  }
+export const SearchDataFragmentDoc = gql`
+    fragment SearchData on _IContent {
+  ...IContentData
 }
     `;
-export const StartPageDataFragmentDoc = /*#__PURE__*/ gql`
-    fragment StartPageData on StartPage {
-  HomePageHeroContentArea {
-    ...BlockData
-  }
-  HomePageMainContentArea {
-    ...BlockData
-  }
-}
-    `;
-export const PageDataFragmentDoc = /*#__PURE__*/ gql`
+export const PageDataFragmentDoc = gql`
     fragment PageData on _IContent {
   ...IContentData
-  ...BlogPostPageData
-  ...LandingPageData
-  ...StandardPageData
-  ...StartPageData
 }
     `;
-export const HtmlBlockFragmentDoc = /*#__PURE__*/ gql`
-    fragment HtmlBlock on HtmlBlock {
-  title: HtmlBlockHeading
-  content: HtmlContent {
-    json
-    html
-  }
-  __typename
-}
-    `;
-export const FooterMenuNavigationItemFragmentDoc = /*#__PURE__*/ gql`
-    fragment FooterMenuNavigationItem on MenuNavigationBlock {
-  title: MenuNavigationHeading
-  items: NavigationLinks {
-    url {
-      ...LinkData
-    }
-    title
-    target
-    text
-  }
-  __typename
-}
-    `;
-export const LinkItemDataFragmentDoc = /*#__PURE__*/ gql`
-    fragment LinkItemData on Link {
-  title
-  text
-  target
-  url {
-    ...LinkData
-  }
-}
-    `;
-export const MenuNavigationItemFragmentDoc = /*#__PURE__*/ gql`
-    fragment MenuNavigationItem on MenuNavigationBlock {
-  title: MenuNavigationHeading
-  items: NavigationLinks {
-    ...LinkItemData
-  }
-  __typename
-}
-    `;
-export const MenuCardItemFragmentDoc = /*#__PURE__*/ gql`
-    fragment MenuCardItem on CardBlock {
-  heading: CardHeading
-  subheading: CardSubHeading
-  description: CardDescription {
-    json
-  }
-  color: CardColor
-  image: CardImage {
-    src: url {
-      ...LinkData
-    }
-  }
-  link: CardButton {
-    title: ButtonText
-    url: ButtonUrl {
-      ...LinkData
-    }
-  }
-  __typename
-}
-    `;
-export const MenuButtonFragmentDoc = /*#__PURE__*/ gql`
-    fragment MenuButton on ButtonBlock {
-  text: ButtonText
-  url: ButtonUrl {
-    ...LinkData
-  }
-  type: ButtonType
-  variant: ButtonVariant
-  __typename
-}
-    `;
-export const MenuItemFragmentDoc = /*#__PURE__*/ gql`
-    fragment MenuItem on _IContent {
-  __typename
-  ...MenuNavigationItem
-  ...MenuCardItem
-  ...MenuButton
-}
-    `;
-export const MegaMenuItemFragmentDoc = /*#__PURE__*/ gql`
-    fragment MegaMenuItem on MegaMenuGroupBlock {
-  menuName: MenuMenuHeading
-  menuData: MegaMenuContentArea {
-    ...MenuItem
-  }
-}
-    `;
-export const getContentTypeDocument = /*#__PURE__*/ gql`
-    query getContentType($key: String!, $version: String, $locale: [Locales!], $path: String, $domain: String) {
-  content: _Content(
-    where: {_or: [{_metadata: {key: {eq: $key}, version: {eq: $version}}}, {_metadata: {url: {hierarchical: {eq: $path}, base: {eq: $domain}}, version: {eq: $version}}}]}
+export const getArticleListElementItemsDocument = gql`
+    query getArticleListElementItems($count: Int!, $locale: [Locales], $topics: [String], $excludeKeys: [String]) {
+  BlogPostPage(
+    orderBy: {_metadata: {published: DESC}}
+    limit: $count
     locale: $locale
+    where: {_metadata: {status: {eq: "Published"}, key: {notIn: $excludeKeys}}, Topic: {in: $topics}}
   ) {
-    total
     items {
-      _metadata {
-        types
-      }
-    }
-  }
-}
-    `;
-export const getContentByIdDocument = /*#__PURE__*/ gql`
-    query getContentById($key: String!, $version: String, $locale: [Locales!], $path: String, $domain: String) {
-  content: _Content(
-    where: {_or: [{_metadata: {key: {eq: $key}, version: {eq: $version}}}, {_metadata: {url: {hierarchical: {eq: $path}, base: {eq: $domain}}, version: {eq: $version}}}]}
-    locale: $locale
-  ) {
-    total
-    items {
-      ...BlockData
-      ...PageData
-    }
-  }
-}
-    ${BlockDataFragmentDoc}
-${IContentDataFragmentDoc}
-${IContentInfoFragmentDoc}
-${LinkDataFragmentDoc}
-${BlogListingBlockDataFragmentDoc}
-${CardBlockDataFragmentDoc}
-${ReferenceDataFragmentDoc}
-${CarouselBlockDataFragmentDoc}
-${IContentListItemFragmentDoc}
-${LayoutContainerBlockDataFragmentDoc}
-${HomeHeroBlockDataFragmentDoc}
-${HeroBlockDataFragmentDoc}
-${OdpEmbedBlockDataFragmentDoc}
-${QuoteBlockDataFragmentDoc}
-${TextBlockDataFragmentDoc}
-${PageDataFragmentDoc}
-${BlogPostPageDataFragmentDoc}
-${LandingPageDataFragmentDoc}
-${StandardPageDataFragmentDoc}
-${StartPageDataFragmentDoc}`;
-export const getContentByPathDocument = /*#__PURE__*/ gql`
-    query getContentByPath($path: String!, $version: String, $locale: [Locales!], $domain: String) {
-  content: _Content(
-    where: {_metadata: {url: {default: {eq: $path}, base: {eq: $domain}}, version: {eq: $version}}}
-    locale: $locale
-  ) {
-    total
-    items {
-      ...PageData
-    }
-  }
-}
-    ${PageDataFragmentDoc}
-${IContentDataFragmentDoc}
-${IContentInfoFragmentDoc}
-${LinkDataFragmentDoc}
-${BlogPostPageDataFragmentDoc}
-${ReferenceDataFragmentDoc}
-${LandingPageDataFragmentDoc}
-${BlockDataFragmentDoc}
-${BlogListingBlockDataFragmentDoc}
-${CardBlockDataFragmentDoc}
-${CarouselBlockDataFragmentDoc}
-${IContentListItemFragmentDoc}
-${LayoutContainerBlockDataFragmentDoc}
-${HomeHeroBlockDataFragmentDoc}
-${HeroBlockDataFragmentDoc}
-${OdpEmbedBlockDataFragmentDoc}
-${QuoteBlockDataFragmentDoc}
-${TextBlockDataFragmentDoc}
-${StandardPageDataFragmentDoc}
-${StartPageDataFragmentDoc}`;
-export const searchContentDocument = /*#__PURE__*/ gql`
-    query searchContent($term: String!, $topInterest: String, $locale: [String!], $types: [String!], $pageSize: Int) {
-  Content: _Content(
-    where: {_or: [{_fulltext: {contains: $term}}, {_fulltext: {contains: $topInterest, boost: 2}}], _fulltext: {contains: $term}, _metadata: {types: {in: "Page"}}}
-    orderBy: {_ranking: SEMANTIC}
-    limit: $pageSize
-  ) {
-    total
-    cursor
-    items {
-      _score
       ...IContentData
-      _metadata {
+      articleMeta: _metadata {
+        key
         published
+        lastModified
       }
-      _fulltext(highlight: {enabled: true, startToken: "<span>", endToken: "</span>"})
+      blogTitle: Heading
+      blogSubtitle: ArticleSubHeading
+      blogImage: BlogPostPromoImage {
+        ...ReferenceData
+      }
+      blogBody: BlogPostBody {
+        json
+      }
+      blogAuthor: ArticleAuthor
     }
-    facets {
-      _metadata {
-        types(filters: $types) {
-          name
-          count
+  }
+}
+    ${IContentDataFragmentDoc}
+${IContentInfoFragmentDoc}
+${LinkDataFragmentDoc}
+${ReferenceDataFragmentDoc}`;
+export const getDefaultArticleListDocument = gql`
+    query getDefaultArticleList($locale: [Locales!]) {
+  ArticleListElement(
+    where: {_metadata: {displayName: {startsWith: "[DEFAULT]"}, status: {eq: "Published"}}}
+    locale: $locale
+    orderBy: {_metadata: {published: DESC}}
+    limit: 1
+  ) {
+    items {
+      ...IContentData
+      ...ArticleListElementData
+    }
+  }
+}
+    ${IContentDataFragmentDoc}
+${IContentInfoFragmentDoc}
+${LinkDataFragmentDoc}
+${ArticleListElementDataFragmentDoc}`;
+export const getBlankExperienceMetaDataDocument = gql`
+    query getBlankExperienceMetaData($key: String!, $locale: [Locales]) {
+  page: BlankExperience(where: {_metadata: {key: {eq: $key}}}, locale: $locale) {
+    items {
+      meta: _metadata {
+        url {
+          base
         }
-        locale(filters: $locale) {
-          name
-          count
+        displayName
+      }
+      seo: BlankExperienceSeoSettings {
+        title: MetaTitle
+        description: MetaDescription
+        image: SharingImage {
+          ...ReferenceData
+        }
+        type: GraphType
+      }
+    }
+  }
+}
+    ${ReferenceDataFragmentDoc}
+${LinkDataFragmentDoc}`;
+export const getChildBlogPostsDocument = gql`
+    query getChildBlogPosts($parentKey: String!, $locale: [Locales!]! = ALL, $author: String! = "", $topic: String! = "", $limit: Int! = 9, $skip: Int! = 0) {
+  result: _Page(where: {_metadata: {key: {eq: $parentKey}}}, locale: $locale) {
+    items {
+      container: _metadata {
+        key
+        displayName
+      }
+      items: _link(type: ITEMS) {
+        posts: BlogPostPage(skip: $skip, limit: $limit) {
+          total
+          items {
+            ...IContentData
+            metadata: _metadata {
+              key
+              url {
+                base
+                default
+              }
+              published
+            }
+            heading: Heading
+            subheading: ArticleSubHeading
+            author: ArticleAuthor
+            topic: Topic
+            image: BlogPostPromoImage {
+              src: url {
+                base
+                default
+              }
+            }
+          }
+          facets {
+            author: ArticleAuthor(filters: [$author]) {
+              name
+              count
+            }
+            topic: Topic(orderBy: ASC, filters: [$topic]) {
+              name
+              count
+            }
+            metadata: _metadata {
+              published(unit: DAY) {
+                name
+                count
+              }
+            }
+          }
         }
       }
     }
@@ -495,77 +679,66 @@ export const searchContentDocument = /*#__PURE__*/ gql`
     ${IContentDataFragmentDoc}
 ${IContentInfoFragmentDoc}
 ${LinkDataFragmentDoc}`;
-export const getFooterDocument = /*#__PURE__*/ gql`
-    query getFooter($locale: [Locales] = en) {
-  menuItems: StartPage(locale: $locale) {
+export const getBlogSectionExperienceMetaDataDocument = gql`
+    query getBlogSectionExperienceMetaData($key: String!, $version: String, $locale: [Locales!]) {
+  page: BlogSectionExperience(
+    where: {_metadata: {key: {eq: $key}, version: {eq: $version}}}
+    locale: $locale
+  ) {
     items {
-      footerSubLinks: FooterNavigationSubLinks {
-        ...LinkItemData
+      _metadata {
+        displayName
+        published
+        url {
+          base
+          default
+        }
       }
-      footerCopyright: FooterNavigationCopyrightText
-      footerNavigation: FooterNavigationContentArea {
-        __typename
-        ...FooterMenuNavigationItem
-        ...HtmlBlock
+      seo_data {
+        ...PageSeoSettingsPropertyData
       }
     }
   }
 }
-    ${LinkItemDataFragmentDoc}
-${LinkDataFragmentDoc}
-${FooterMenuNavigationItemFragmentDoc}
-${HtmlBlockFragmentDoc}`;
-export const getHeaderDocument = /*#__PURE__*/ gql`
-    query getHeader($locale: [Locales]) {
-  menuItems: StartPage(locale: $locale) {
-    items {
-      headerNavigation: MainNavigationContentArea {
-        ...MegaMenuItem
-      }
-      UtilityNavigationContentArea {
-        ...MenuItem
-      }
-    }
-  }
-}
-    ${MegaMenuItemFragmentDoc}
-${MenuItemFragmentDoc}
-${MenuNavigationItemFragmentDoc}
-${LinkItemDataFragmentDoc}
-${LinkDataFragmentDoc}
-${MenuCardItemFragmentDoc}
-${MenuButtonFragmentDoc}`;
-export const getBlogPostPageMetaDataDocument = /*#__PURE__*/ gql`
-    query getBlogPostPageMetaData($key: String!, $version: String, $locale: [Locales]) {
+    ${PageSeoSettingsPropertyDataFragmentDoc}
+${ReferenceDataFragmentDoc}
+${LinkDataFragmentDoc}`;
+export const getBlogPostPageMetaDataDocument = gql`
+    query getBlogPostPageMetaData($key: String!, $version: String, $locale: [Locales!]) {
   BlogPostPage(
     where: {_metadata: {key: {eq: $key}, version: {eq: $version}}}
     locale: $locale
   ) {
     pages: items {
-      _metadata {
-        displayName
-        key
-        version
-        locale
+      cms: _metadata {
+        title: displayName
+        published
+        url {
+          base
+          default
+        }
       }
-      Heading
-      BlogPostPromoImage {
+      title: Heading
+      author: ArticleAuthor
+      image: BlogPostPromoImage {
         ...ReferenceData
       }
-      SeoSettings {
-        MetaTitle
-        MetaDescription
-        SharingImage {
+      topics: Topic
+      seo: SeoSettings {
+        title: MetaTitle
+        description: MetaDescription
+        keywords: MetaKeywords
+        image: SharingImage {
           ...ReferenceData
         }
-        GraphType
+        type: GraphType
       }
     }
   }
 }
     ${ReferenceDataFragmentDoc}
 ${LinkDataFragmentDoc}`;
-export const getLandingPageMetaDataDocument = /*#__PURE__*/ gql`
+export const getLandingPageMetaDataDocument = gql`
     query getLandingPageMetaData($key: String!, $version: String, $locale: [Locales]) {
   LandingPage(
     where: {_metadata: {key: {eq: $key}, version: {eq: $version}}}
@@ -577,6 +750,9 @@ export const getLandingPageMetaDataDocument = /*#__PURE__*/ gql`
         key
         version
         locale
+        url {
+          base
+        }
       }
       SeoSettings {
         MetaTitle
@@ -591,69 +767,86 @@ export const getLandingPageMetaDataDocument = /*#__PURE__*/ gql`
 }
     ${ReferenceDataFragmentDoc}
 ${LinkDataFragmentDoc}`;
-export const getStandardPageMetaDataDocument = /*#__PURE__*/ gql`
-    query getStandardPageMetaData($key: String!, $version: String, $locale: [Locales]) {
-  StandardPage(
-    where: {_metadata: {key: {eq: $key}, version: {eq: $version}}}
+export const getFooterDataDocument = gql`
+    query getFooterData($domain: String, $locale: [Locales!]) {
+  appLayout: LayoutSettingsBlock(
+    where: {_or: [{appIdentifiers: {exist: false}}, {_and: [{appIdentifiers: {exist: true}}, {appIdentifiers: {eq: $domain}}]}]}
     locale: $locale
   ) {
-    pages: items {
+    items {
       _metadata {
-        displayName
         key
-        version
-        locale
+        displayName
       }
-      StandardPageHeading
-      StandardPromoImage {
-        ...ReferenceData
+      copyright
+      footerMenus {
+        ...IContentData
+        ...MenuNavigationBlockData
       }
-      SeoSettings {
-        MetaTitle
-        MetaDescription
-        SharingImage {
-          ...ReferenceData
-        }
-        GraphType
+      legalLinks {
+        ...LinkItemData
+      }
+      contactInfoHeading
+      contactInfo {
+        json
       }
     }
   }
 }
-    ${ReferenceDataFragmentDoc}
-${LinkDataFragmentDoc}`;
-export const getStartPageMetaDataDocument = /*#__PURE__*/ gql`
-    query getStartPageMetaData($key: String!, $version: String, $locale: [Locales]) {
-  StartPage(
-    where: {_metadata: {key: {eq: $key}, version: {eq: $version}}}
+    ${IContentDataFragmentDoc}
+${IContentInfoFragmentDoc}
+${LinkDataFragmentDoc}
+${MenuNavigationBlockDataFragmentDoc}
+${LinkItemDataFragmentDoc}`;
+export const getHeaderDataDocument = gql`
+    query getHeaderData($domain: String, $locale: [Locales!]) {
+  appLayout: LayoutSettingsBlock(
+    where: {_or: [{appIdentifiers: {exist: false}}, {_and: [{appIdentifiers: {exist: true}}, {appIdentifiers: {eq: $domain}}]}]}
     locale: $locale
   ) {
-    pages: items {
+    items {
       _metadata {
-        displayName
         key
-        version
-        locale
+        displayName
       }
-      SiteImageLogo {
-        ...ReferenceData
+      appIdentifiers
+      mainMenu {
+        ...IContentData
+        ...MegaMenuGroupBlockData
       }
-      SeoSettings {
-        MetaTitle
-        MetaDescription
-        SharingImage {
-          ...ReferenceData
-        }
-        GraphType
+      serviceButtons {
+        ...IContentData
+        ...ButtonBlockData
       }
     }
   }
 }
-    ${ReferenceDataFragmentDoc}
-${LinkDataFragmentDoc}`;
-export const getArticlesDocument = /*#__PURE__*/ gql`
+    ${IContentDataFragmentDoc}
+${IContentInfoFragmentDoc}
+${LinkDataFragmentDoc}
+${MegaMenuGroupBlockDataFragmentDoc}
+${MenuNavigationBlockDataFragmentDoc}
+${LinkItemDataFragmentDoc}
+${BlogPostPageMenuBlockFragmentDoc}
+${ReferenceDataFragmentDoc}
+${ButtonBlockDataFragmentDoc}`;
+export const getLocalesDocument = gql`
+    query getLocales {
+  schema: __schema {
+    types {
+      kind
+      name
+      enumValues {
+        name
+      }
+    }
+  }
+}
+    `;
+export const getArticlesDocument = gql`
     query getArticles($pageSize: Int! = 10, $start: Int! = 0, $locale: [Locales], $author: [String!], $published: Date, $publishedEnd: Date) {
   getArticles: BlogPostPage(
-    where: {_and: [{_metadata: {published: {gte: $published}}}, {_metadata: {published: {lte: $publishedEnd}}}]}
+    where: {_and: [{_metadata: {published: {gte: $published}}}, {_metadata: {published: {lte: $publishedEnd}}}], _metadata: {status: {eq: "Published"}}}
     locale: $locale
     limit: $pageSize
     skip: $start
@@ -663,6 +856,7 @@ export const getArticlesDocument = /*#__PURE__*/ gql`
     items {
       ...IContentData
       _metadata {
+        status
         published
       }
       title: Heading
@@ -692,6 +886,239 @@ export const getArticlesDocument = /*#__PURE__*/ gql`
 ${IContentInfoFragmentDoc}
 ${LinkDataFragmentDoc}
 ${ReferenceDataFragmentDoc}`;
+export const searchContentDocument = gql`
+    query searchContent($term: String!, $locale: [String!], $withinLocale: [Locales], $types: [String!], $pageSize: Int! = 25, $start: Int! = 0) {
+  Content: _Page(
+    where: {_fulltext: {match: $term}, _metadata: {url: {base: {exist: true}}}}
+    orderBy: {_ranking: SEMANTIC}
+    limit: $pageSize
+    skip: $start
+    locale: $withinLocale
+  ) {
+    total
+    items {
+      _score
+      ...SearchData
+      _metadata {
+        published
+      }
+      preview: _fulltext(
+        highlight: {enabled: true, startToken: "<span>", endToken: "</span>"}
+      )
+      ...BlogPostPageSearchResult
+    }
+    facets {
+      _metadata {
+        types(filters: $types) {
+          name
+          count
+        }
+        locale(filters: $locale) {
+          name
+          count
+        }
+      }
+    }
+  }
+}
+    ${SearchDataFragmentDoc}
+${IContentDataFragmentDoc}
+${IContentInfoFragmentDoc}
+${LinkDataFragmentDoc}
+${BlogPostPageSearchResultFragmentDoc}
+${ReferenceDataFragmentDoc}`;
+export const personalizedSearchContentDocument = gql`
+    query personalizedSearchContent($term: String!, $topInterest: String, $locale: [String!], $withinLocale: [Locales], $types: [String!], $pageSize: Int! = 25, $start: Int! = 0, $boost: Int! = 100) {
+  Content: _Page(
+    where: {_or: [{_fulltext: {match: $term}}, {_fulltext: {match: $topInterest, boost: $boost}}], _metadata: {url: {base: {exist: true}}}}
+    orderBy: {_ranking: SEMANTIC}
+    limit: $pageSize
+    skip: $start
+    locale: $withinLocale
+  ) {
+    total
+    items {
+      _score
+      ...SearchData
+      _metadata {
+        published
+      }
+      preview: _fulltext(
+        highlight: {enabled: true, startToken: "<span>", endToken: "</span>"}
+      )
+      ...BlogPostPageSearchResult
+    }
+    facets {
+      _metadata {
+        types(filters: $types) {
+          name
+          count
+        }
+        locale(filters: $locale) {
+          name
+          count
+        }
+      }
+    }
+  }
+}
+    ${SearchDataFragmentDoc}
+${IContentDataFragmentDoc}
+${IContentInfoFragmentDoc}
+${LinkDataFragmentDoc}
+${BlogPostPageSearchResultFragmentDoc}
+${ReferenceDataFragmentDoc}`;
+export const getContentByIdDocument = gql`
+    query getContentById($key: String!, $version: String, $locale: [Locales!], $path: String, $domain: String) {
+  content: _Content(
+    where: {_or: [{_metadata: {key: {eq: $key}, version: {eq: $version}}}, {_metadata: {url: {hierarchical: {eq: $path}, base: {eq: $domain}}, version: {eq: $version}}}]}
+    locale: $locale
+  ) {
+    total
+    items {
+      ...BlockData
+      ...PageData
+      ...ArticleListElementData
+      ...ButtonBlockData
+      ...CTAElementData
+      ...CarouselBlockData
+      ...ContentRecsElementData
+      ...HeadingElementData
+      ...HeroBlockData
+      ...ImageElementData
+      ...LayoutSettingsBlockData
+      ...MegaMenuGroupBlockData
+      ...MenuNavigationBlockData
+      ...OdpEmbedBlockData
+      ...PageSeoSettingsData
+      ...ParagraphElementData
+      ...QuoteBlockData
+      ...RichTextElementData
+      ...TestimonialElementData
+      ...TextBlockData
+      ...VideoElementData
+      ...BlankSectionData
+      ...BlankExperienceData
+      ...BlogSectionExperienceData
+      ...BlogPostPageData
+      ...LandingPageData
+    }
+  }
+}
+    ${BlockDataFragmentDoc}
+${IContentDataFragmentDoc}
+${IContentInfoFragmentDoc}
+${LinkDataFragmentDoc}
+${PageDataFragmentDoc}
+${ArticleListElementDataFragmentDoc}
+${ButtonBlockDataFragmentDoc}
+${CTAElementDataFragmentDoc}
+${CarouselBlockDataFragmentDoc}
+${IContentListItemFragmentDoc}
+${ImageMediaComponentDataFragmentDoc}
+${VideoMediaComponentDataFragmentDoc}
+${ContentRecsElementDataFragmentDoc}
+${HeadingElementDataFragmentDoc}
+${HeroBlockDataFragmentDoc}
+${ReferenceDataFragmentDoc}
+${ButtonBlockPropertyDataFragmentDoc}
+${ImageElementDataFragmentDoc}
+${LayoutSettingsBlockDataFragmentDoc}
+${LinkItemDataFragmentDoc}
+${MegaMenuGroupBlockDataFragmentDoc}
+${MenuNavigationBlockDataFragmentDoc}
+${BlogPostPageMenuBlockFragmentDoc}
+${OdpEmbedBlockDataFragmentDoc}
+${PageSeoSettingsDataFragmentDoc}
+${ParagraphElementDataFragmentDoc}
+${QuoteBlockDataFragmentDoc}
+${RichTextElementDataFragmentDoc}
+${TestimonialElementDataFragmentDoc}
+${TextBlockDataFragmentDoc}
+${VideoElementDataFragmentDoc}
+${BlankSectionDataFragmentDoc}
+${BlankExperienceDataFragmentDoc}
+${PageSeoSettingsPropertyDataFragmentDoc}
+${ExperienceDataFragmentDoc}
+${CompositionDataFragmentDoc}
+${ElementDataFragmentDoc}
+${IElementDataFragmentDoc}
+${BlogSectionExperienceDataFragmentDoc}
+${BlogPostPageDataFragmentDoc}
+${LandingPageDataFragmentDoc}`;
+export const getContentByPathDocument = gql`
+    query getContentByPath($path: [String!]!, $locale: [Locales!], $siteId: String) {
+  content: _Content(
+    where: {_metadata: {url: {default: {in: $path}, base: {eq: $siteId}}}}
+    locale: $locale
+  ) {
+    total
+    items {
+      ...IContentData
+      ...PageData
+      ...BlankExperienceData
+      ...BlogSectionExperienceData
+      ...BlogPostPageData
+      ...LandingPageData
+    }
+  }
+}
+    ${IContentDataFragmentDoc}
+${IContentInfoFragmentDoc}
+${LinkDataFragmentDoc}
+${PageDataFragmentDoc}
+${BlankExperienceDataFragmentDoc}
+${PageSeoSettingsPropertyDataFragmentDoc}
+${ReferenceDataFragmentDoc}
+${ExperienceDataFragmentDoc}
+${CompositionDataFragmentDoc}
+${BlockDataFragmentDoc}
+${ElementDataFragmentDoc}
+${IElementDataFragmentDoc}
+${ArticleListElementDataFragmentDoc}
+${ButtonBlockDataFragmentDoc}
+${CTAElementDataFragmentDoc}
+${CarouselBlockDataFragmentDoc}
+${IContentListItemFragmentDoc}
+${ImageMediaComponentDataFragmentDoc}
+${VideoMediaComponentDataFragmentDoc}
+${ContentRecsElementDataFragmentDoc}
+${HeadingElementDataFragmentDoc}
+${HeroBlockDataFragmentDoc}
+${ButtonBlockPropertyDataFragmentDoc}
+${ImageElementDataFragmentDoc}
+${LayoutSettingsBlockDataFragmentDoc}
+${LinkItemDataFragmentDoc}
+${MegaMenuGroupBlockDataFragmentDoc}
+${MenuNavigationBlockDataFragmentDoc}
+${BlogPostPageMenuBlockFragmentDoc}
+${OdpEmbedBlockDataFragmentDoc}
+${PageSeoSettingsDataFragmentDoc}
+${ParagraphElementDataFragmentDoc}
+${QuoteBlockDataFragmentDoc}
+${RichTextElementDataFragmentDoc}
+${TestimonialElementDataFragmentDoc}
+${TextBlockDataFragmentDoc}
+${VideoElementDataFragmentDoc}
+${BlankSectionDataFragmentDoc}
+${BlogSectionExperienceDataFragmentDoc}
+${BlogPostPageDataFragmentDoc}
+${LandingPageDataFragmentDoc}`;
+export const getContentTypeDocument = gql`
+    query getContentType($key: String!, $version: String, $locale: [Locales!], $path: String, $domain: String) {
+  content: _Content(
+    where: {_or: [{_metadata: {key: {eq: $key}, version: {eq: $version}}}, {_metadata: {url: {hierarchical: {eq: $path}, base: {eq: $domain}}, version: {eq: $version}}}]}
+    locale: $locale
+  ) {
+    total
+    items {
+      _metadata {
+        types
+      }
+    }
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string, variables?: any) => Promise<T>;
 
@@ -700,23 +1127,20 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    getContentType(variables: Schema.getContentTypeQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getContentTypeQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getContentTypeQuery>(getContentTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContentType', 'query', variables);
+    getArticleListElementItems(variables: Schema.getArticleListElementItemsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getArticleListElementItemsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getArticleListElementItemsQuery>(getArticleListElementItemsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getArticleListElementItems', 'query', variables);
     },
-    getContentById(variables: Schema.getContentByIdQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getContentByIdQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getContentByIdQuery>(getContentByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContentById', 'query', variables);
+    getDefaultArticleList(variables?: Schema.getDefaultArticleListQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getDefaultArticleListQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getDefaultArticleListQuery>(getDefaultArticleListDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getDefaultArticleList', 'query', variables);
     },
-    getContentByPath(variables: Schema.getContentByPathQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getContentByPathQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getContentByPathQuery>(getContentByPathDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContentByPath', 'query', variables);
+    getBlankExperienceMetaData(variables: Schema.getBlankExperienceMetaDataQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getBlankExperienceMetaDataQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getBlankExperienceMetaDataQuery>(getBlankExperienceMetaDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getBlankExperienceMetaData', 'query', variables);
     },
-    searchContent(variables: Schema.searchContentQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.searchContentQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Schema.searchContentQuery>(searchContentDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'searchContent', 'query', variables);
+    getChildBlogPosts(variables: Schema.getChildBlogPostsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getChildBlogPostsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getChildBlogPostsQuery>(getChildBlogPostsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getChildBlogPosts', 'query', variables);
     },
-    getFooter(variables?: Schema.getFooterQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getFooterQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getFooterQuery>(getFooterDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getFooter', 'query', variables);
-    },
-    getHeader(variables?: Schema.getHeaderQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getHeaderQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getHeaderQuery>(getHeaderDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getHeader', 'query', variables);
+    getBlogSectionExperienceMetaData(variables: Schema.getBlogSectionExperienceMetaDataQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getBlogSectionExperienceMetaDataQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getBlogSectionExperienceMetaDataQuery>(getBlogSectionExperienceMetaDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getBlogSectionExperienceMetaData', 'query', variables);
     },
     getBlogPostPageMetaData(variables: Schema.getBlogPostPageMetaDataQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getBlogPostPageMetaDataQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<Schema.getBlogPostPageMetaDataQuery>(getBlogPostPageMetaDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getBlogPostPageMetaData', 'query', variables);
@@ -724,14 +1148,32 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     getLandingPageMetaData(variables: Schema.getLandingPageMetaDataQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getLandingPageMetaDataQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<Schema.getLandingPageMetaDataQuery>(getLandingPageMetaDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getLandingPageMetaData', 'query', variables);
     },
-    getStandardPageMetaData(variables: Schema.getStandardPageMetaDataQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getStandardPageMetaDataQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getStandardPageMetaDataQuery>(getStandardPageMetaDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getStandardPageMetaData', 'query', variables);
+    getFooterData(variables?: Schema.getFooterDataQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getFooterDataQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getFooterDataQuery>(getFooterDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getFooterData', 'query', variables);
     },
-    getStartPageMetaData(variables: Schema.getStartPageMetaDataQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getStartPageMetaDataQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getStartPageMetaDataQuery>(getStartPageMetaDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getStartPageMetaData', 'query', variables);
+    getHeaderData(variables?: Schema.getHeaderDataQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getHeaderDataQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getHeaderDataQuery>(getHeaderDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getHeaderData', 'query', variables);
+    },
+    getLocales(variables?: Schema.getLocalesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getLocalesQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getLocalesQuery>(getLocalesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getLocales', 'query', variables);
     },
     getArticles(variables?: Schema.getArticlesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getArticlesQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<Schema.getArticlesQuery>(getArticlesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getArticles', 'query', variables);
+    },
+    searchContent(variables: Schema.searchContentQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.searchContentQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<Schema.searchContentQuery>(searchContentDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'searchContent', 'query', variables);
+    },
+    personalizedSearchContent(variables: Schema.personalizedSearchContentQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.personalizedSearchContentQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<Schema.personalizedSearchContentQuery>(personalizedSearchContentDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'personalizedSearchContent', 'query', variables);
+    },
+    getContentById(variables: Schema.getContentByIdQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getContentByIdQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getContentByIdQuery>(getContentByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContentById', 'query', variables);
+    },
+    getContentByPath(variables: Schema.getContentByPathQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getContentByPathQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getContentByPathQuery>(getContentByPathDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContentByPath', 'query', variables);
+    },
+    getContentType(variables: Schema.getContentTypeQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<Schema.getContentTypeQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<Schema.getContentTypeQuery>(getContentTypeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getContentType', 'query', variables);
     }
   };
 }
