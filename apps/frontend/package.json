@@ -7,7 +7,7 @@
     "dev": "next dev",
     "dev:https": "yarn next dev --experimental-https",
     "config": "opti-graph config:create",
-    "build": "next build && opti-graph webhook:create",
+    "build": "next build && opti-graph",
     "build:full": "graphql-codegen && opti-fx pull && next build && opti-graph webhook:create",
     "start": "next start",
     "lint": "next lint",
