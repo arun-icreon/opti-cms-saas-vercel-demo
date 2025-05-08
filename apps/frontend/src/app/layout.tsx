@@ -16,6 +16,7 @@ import { ServerContext } from "@remkoj/optimizely-cms-react/rsc";
 import { OptimizelyOneProvider, PageActivator } from "@remkoj/optimizely-one-nextjs/client";
 import GoogleAnalytics from '@/components/integrations/google-analytics'
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import ODPAnalytics from '@/components/integrations/odp';
 
 /* eslint-disable @next/next/no-css-tags */
 
@@ -96,7 +97,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
           </OptimizelyOneProvider>
           <Scripts.Footer />
           { enableGoogleAnalytics && <GoogleAnalytics measurementId={ ga_id } /> }
+
           <SpeedInsights />
+          <ODPAnalytics />
         </Body>
       </ThemeProvider>
     </html>
