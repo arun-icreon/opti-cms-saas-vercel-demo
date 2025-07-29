@@ -7,6 +7,7 @@ import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { factory } from '@/components/factory';
 import { createClient } from '@remkoj/optimizely-graph-client';
+import Script from "next/script";
 
 // Server side components
 import { EnvTools, Scripts, OptimizelyOneGadget } from "@remkoj/optimizely-one-nextjs/server";
