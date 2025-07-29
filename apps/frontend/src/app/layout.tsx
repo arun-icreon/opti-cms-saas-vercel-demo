@@ -83,6 +83,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <head>
         <Scripts.Header experimentationAllowOverride={ !forceDisableOverride } />
         { enableDemoTools && <link key="dynamic-styles" rel="stylesheet" href="/main.css" ></link> }
+        <Script src="https://cdn.optimizely.com/js/5172013971537920.js" strategy="afterInteractive" />
       </head>
       <ThemeProvider value={{ theme: "system" }}>
         <Body className={`${figtree.className} on-ghost-white overflow-x-hidden`}>
