@@ -1,0 +1,35 @@
+{
+  "key": "TestComponent",
+  "displayName": "Test Component",
+  "description": "Test Component",
+  "baseType": "component",
+  "sortOrder": 0,
+  "mayContainTypes": [],
+  "mediaFileExtensions": [],
+  "compositionBehaviors": [],
+  "properties": {
+    "Title": {
+      "type": "string",
+      "format": "shortString",
+      "displayName": "Title",
+      "description": "",
+      "localized": false,
+      "required": true,
+      "group": "Information",
+      "sortOrder": -100,
+      "editorSettings": {},
+      "maxLength": 100
+    },
+    "Content": {
+      "type": "component",
+      "contentType": "HeroBlock",
+      "displayName": "Content",
+      "description": "",
+      "localized": false,
+      "required": false,
+      "group": "Information",
+      "sortOrder": 0,
+      "editorSettings": {}
+    }
+  }
+}

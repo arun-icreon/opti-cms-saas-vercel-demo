@@ -1,0 +1,73 @@
+{
+  "key": "Masthead_banner",
+  "displayName": "Masthead_banner",
+  "description": "Masthead_banner\nhttps://docs.developers.optimizely.com/content-management-system/v1.0.0-CMS-SaaS/docs/content-modeling-saas",
+  "baseType": "component",
+  "sortOrder": 0,
+  "mayContainTypes": [],
+  "mediaFileExtensions": [],
+  "compositionBehaviors": [],
+  "properties": {
+    "Left_Image": {
+      "type": "content",
+      "displayName": "Left_Image",
+      "description": "",
+      "localized": false,
+      "required": true,
+      "group": "Information",
+      "sortOrder": 0,
+      "editorSettings": {},
+      "allowedTypes": [
+        "Image"
+      ],
+      "restrictedTypes": []
+    },
+    "Right_Image": {
+      "type": "content",
+      "displayName": "Right_Image",
+      "description": "",
+      "localized": false,
+      "required": true,
+      "group": "Information",
+      "sortOrder": 0,
+      "editorSettings": {},
+      "allowedTypes": [
+        "Image"
+      ],
+      "restrictedTypes": []
+    },
+    "Title": {
+      "type": "string",
+      "format": "shortString",
+      "displayName": "Title",
+      "description": "",
+      "localized": false,
+      "required": false,
+      "group": "Information",
+      "sortOrder": 0,
+      "editorSettings": {}
+    },
+    "Main_Content": {
+      "type": "string",
+      "format": "html",
+      "displayName": "Main_Content",
+      "description": "",
+      "localized": false,
+      "required": false,
+      "group": "Information",
+      "sortOrder": 100,
+      "editorSettings": {}
+    },
+    "CTA": {
+      "type": "component",
+      "contentType": "CTAElement",
+      "displayName": "CTA",
+      "description": "",
+      "localized": false,
+      "required": false,
+      "group": "Information",
+      "sortOrder": 200,
+      "editorSettings": {}
+    }
+  }
+}

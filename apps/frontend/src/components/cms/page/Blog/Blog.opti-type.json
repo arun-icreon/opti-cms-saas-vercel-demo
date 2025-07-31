@@ -1,0 +1,26 @@
+{
+  "key": "Blog",
+  "displayName": "Blog",
+  "description": "Blog content",
+  "baseType": "page",
+  "sortOrder": 0,
+  "mayContainTypes": [
+    "*"
+  ],
+  "mediaFileExtensions": [],
+  "compositionBehaviors": [],
+  "properties": {
+    "Title": {
+      "type": "string",
+      "format": "shortString",
+      "displayName": "Page Title",
+      "description": "",
+      "localized": true,
+      "required": true,
+      "group": "Information",
+      "sortOrder": 0,
+      "editorSettings": {},
+      "maxLength": 150
+    }
+  }
+}

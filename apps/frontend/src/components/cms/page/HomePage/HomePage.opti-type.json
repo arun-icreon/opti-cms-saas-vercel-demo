@@ -1,0 +1,25 @@
+{
+  "key": "HomePage",
+  "displayName": "Home Page",
+  "description": "",
+  "baseType": "page",
+  "sortOrder": 0,
+  "mayContainTypes": [
+    "*"
+  ],
+  "mediaFileExtensions": [],
+  "compositionBehaviors": [],
+  "properties": {
+    "Meta": {
+      "type": "component",
+      "contentType": "PageSeoSettings",
+      "displayName": "Meta",
+      "description": "",
+      "localized": false,
+      "required": false,
+      "group": "Information",
+      "sortOrder": 0,
+      "editorSettings": {}
+    }
+  }
+}

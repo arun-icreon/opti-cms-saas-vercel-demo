@@ -1,0 +1,4 @@
+fragment CTAElementPropertyData on CTAElementProperty {
+  Text
+  Link { ...LinkData }
+}

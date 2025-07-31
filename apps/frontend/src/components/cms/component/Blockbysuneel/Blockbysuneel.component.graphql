@@ -1,0 +1,8 @@
+fragment BlockbysuneelData on Blockbysuneel {
+  BaseText
+  content { ...IContentListItem }
+  block { ...CTAElementPropertyData }
+  Dropdown
+  Number
+  checkBox
+}
