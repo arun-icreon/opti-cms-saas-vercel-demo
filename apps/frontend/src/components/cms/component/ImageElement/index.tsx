@@ -9,6 +9,12 @@ import IconImageElement, { isIconImageLayout } from './_icon-image'
 import DefaultImageElement from "./_default-image"
 
 export const ImageElementElement: CmsComponent<ImageElementDataFragment, ImageElementLayoutProps> = ({ data, layoutProps, contentLink, inEditMode, ctx }) => {
+
+    console.log("data ", data);
+    console.log("layoutProps ", layoutProps);
+    console.log("contentLink ", contentLink);
+
+
     if (isIconImageLayout(layoutProps)) {
         return <CmsEditable as={IconImageElement} data={data} layoutProps={layoutProps} cmsId={contentLink.key} ctx={ctx} cmsFieldName="imageLink" />
     }
