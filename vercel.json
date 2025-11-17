@@ -1,4 +1,5 @@
 {
     "$schema": "https://openapi.vercel.sh/vercel.json",
-    "framework": "nextjs"
+    "framework": "nextjs",
+    "bulkRedirectsPath": "https://hcvgzl.files.cmp.optimizely.com/download/assets/redirects.json/d4fd3604c3b011f0804802cd85139eba"
 }
