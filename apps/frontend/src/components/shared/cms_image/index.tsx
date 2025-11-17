@@ -21,17 +21,12 @@ export const CmsImage: FunctionComponent<CmsImageProps> = ({ src, fallbackSrc, a
     let link = linkDataToUrl(getLinkData(src))
     let imgSrc = link?.href ?? fallbackSrc
 
-    if (src?.item) {
-        imgSrc = src?.item?.src;
-        alt = src?.item?.alt;
-    }
-
-
-
+   
     if (!imgSrc)
         return null
     return <Image src={imgSrc} alt={alt} {...props} />
 }
+
 
 
 
