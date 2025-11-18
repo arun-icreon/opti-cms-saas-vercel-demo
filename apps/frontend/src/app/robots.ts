@@ -9,8 +9,8 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
     return {
         rules: {
             userAgent: '*',
-            allow: '/',
-            "# Algolia-Crawler-Verif": "2105C6345AA0797C" 
+            allow: ''
+            
         },
         sitemap,
         host: host?.href
