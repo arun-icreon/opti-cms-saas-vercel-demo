@@ -17,16 +17,9 @@ type CmsImageProps = Readonly<{
  */
 export const CmsImage: FunctionComponent<CmsImageProps> = ({ src, fallbackSrc, alt, ...props }) => {
 
-    console.log("src arun ", src);
+
     let link = linkDataToUrl(getLinkData(src))
     let imgSrc = link?.href ?? fallbackSrc
-
-    if (src?.item) {
-        imgSrc = src?.item?.src;
-        alt = src?.item?.alt;
-    }
-
-
 
     if (!imgSrc)
         return null
