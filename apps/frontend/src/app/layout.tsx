@@ -82,6 +82,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang={ locale }>
       <head>
+          <meta name="algolia-site-verification"  content="2105C6345AA0797C" />
         <Scripts.Header experimentationAllowOverride={ !forceDisableOverride } />
         { enableDemoTools && <link key="dynamic-styles" rel="stylesheet" href="/main.css" ></link> }
         <Script src="https://cdn.optimizely.com/js/5172013971537920.js" strategy="afterInteractive" />
@@ -107,3 +108,4 @@ export default function RootLayout({ children }: RootLayoutProps) {
     </html>
   );
 }
+
