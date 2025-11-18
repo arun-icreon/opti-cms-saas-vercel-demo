@@ -7,10 +7,12 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
     const sitemap = host ? new URL('/sitemap.xml', host).href : undefined
 
     return {
-        rules: {
+         rules: [
+         {
             userAgent: '*',
-            disallow: '/',
-        },
+            allow: ['/'],
+          },         
+        ],
         sitemap,
         host: host?.href
     }

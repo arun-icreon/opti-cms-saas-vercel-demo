@@ -80,6 +80,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang={ locale }>
       <head>
+          <meta name="algolia-site-verification"  content="2105C6345AA0797C" />
         <Scripts.Header experimentationAllowOverride={ !forceDisableOverride } />
         { enableDemoTools && <link key="dynamic-styles" rel="stylesheet" href="/main.css" ></link> }
       </head>
@@ -102,3 +103,4 @@ export default function RootLayout({ children }: RootLayoutProps) {
     </html>
   );
 }
+
