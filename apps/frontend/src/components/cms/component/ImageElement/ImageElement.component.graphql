@@ -1,13 +1,4 @@
 fragment ImageElementData on ImageElement {
   altText
-  imageLink {
-    ...ReferenceData
-    item {
-      graphId: _id
-      ... on cmp_PublicImageAsset {
-        alt: Title
-        src: Url
-      }
-    }
-  }
+  imageLink { ...ReferenceData }
 }

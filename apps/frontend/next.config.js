@@ -20,11 +20,6 @@ const nextConfig = {
                 hostname: '*.cms.optimizely.com',
                 pathname: '/**'
             },
-            {
-                protocol: 'https',
-                hostname: '*.cmp.optimizely.com',
-                pathname: '/**'
-            },
             // Optimizely Content Recommendations
             {
                 protocol: 'https',
@@ -35,10 +30,10 @@ const nextConfig = {
     },
     experimental: {
         serverActions: {
-            allowedOrigins: [
-                '*.webproofing.cmp.optimizely.com', // Optimizely CMP Preview
-                'www.optimizelyedit.com/' // Optimizely Web Experimentation & Personalization Editor
-            ],
+          allowedOrigins: [
+            '*.webproofing.cmp.optimizely.com', // Optimizely CMP Preview
+            'www.optimizelyedit.com/' // Optimizely Web Experimentation & Personalization Editor
+          ],
         }
     }
 }

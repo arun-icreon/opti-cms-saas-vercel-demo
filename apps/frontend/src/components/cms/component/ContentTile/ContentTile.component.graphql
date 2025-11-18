@@ -1,4 +1,0 @@
-fragment ContentTileData on ContentTile {
-  Heading
-  ContentTiles { ...IContentListItem }
-}

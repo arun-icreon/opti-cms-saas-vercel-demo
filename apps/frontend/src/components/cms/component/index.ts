@@ -4,31 +4,23 @@ import { type ComponentTypeDictionary } from "@remkoj/optimizely-cms-react";
 import VideoElementComponent from "./VideoElement";
 import TextBlockComponent from "./TextBlock";
 import TestimonialElementComponent from "./TestimonialElement";
-import TestComponentComponent from "./TestComponent";
-import TestComponent from "./test";
 import RichTextElementComponent from "./RichTextElement";
 import QuoteBlockComponent from "./QuoteBlock";
 import ParagraphElementComponent from "./ParagraphElement";
 import PageSeoSettingsComponent from "./PageSeoSettings";
-import PageBlockComponent from "./PageBlock";
 import OdpEmbedBlockComponent from "./OdpEmbedBlock";
-import NextCompComponent from "./NextComp";
 import MenuNavigationBlockComponent from "./MenuNavigationBlock";
 import MegaMenuGroupBlockMobileComponent from "./MegaMenuGroupBlock/mobile";
 import MegaMenuGroupBlockComponent from "./MegaMenuGroupBlock";
-import MastheadBannerComponent from "./Masthead_banner";
 import LayoutSettingsBlockComponent from "./LayoutSettingsBlock";
 import ImageElementComponent from "./ImageElement";
 import HeroBlockComponent from "./HeroBlock";
 import HeadingElementComponent from "./HeadingElement";
-import CTAElementComponent from "./CTAElement";
 import ContinueReadingComponentComponent from "./ContinueReadingComponent";
-import ContentTileComponent from "./ContentTile";
 import ContentRecsElementComponent from "./ContentRecsElement";
-import CategoriesComponent from "./Categories";
 import CarouselBlockComponent from "./CarouselBlock";
+import CTAElementComponent from "./CTAElement";
 import ButtonBlockComponent from "./ButtonBlock";
-import BlockbysuneelComponent from "./Blockbysuneel";
 import ArticleListElementComponent from "./ArticleListElement";
 import ArticleListElementLoader from "./ArticleListElement/loading";
 import ComponentPageFactory from "./Page";
@@ -51,14 +43,6 @@ export const ComponentFactory : ComponentTypeDictionary = [
         component: TestimonialElementComponent 
     },
     { 
-        type: "TestComponent", 
-        component: TestComponentComponent 
-    },
-    { 
-        type: "test", 
-        component: TestComponent 
-    },
-    { 
         type: "RichTextElement", 
         component: RichTextElementComponent 
     },
@@ -75,16 +59,8 @@ export const ComponentFactory : ComponentTypeDictionary = [
         component: PageSeoSettingsComponent 
     },
     { 
-        type: "PageBlock", 
-        component: PageBlockComponent 
-    },
-    { 
         type: "OdpEmbedBlock", 
         component: OdpEmbedBlockComponent 
-    },
-    { 
-        type: "NextComp", 
-        component: NextCompComponent 
     },
     { 
         type: "MenuNavigationBlock", 
@@ -97,10 +73,6 @@ export const ComponentFactory : ComponentTypeDictionary = [
     { 
         type: "MegaMenuGroupBlock", 
         component: MegaMenuGroupBlockComponent 
-    },
-    { 
-        type: "Masthead_banner", 
-        component: MastheadBannerComponent 
     },
     { 
         type: "LayoutSettingsBlock", 
@@ -119,36 +91,24 @@ export const ComponentFactory : ComponentTypeDictionary = [
         component: HeadingElementComponent 
     },
     { 
-        type: "CTAElement", 
-        component: CTAElementComponent 
-    },
-    { 
         type: "ContinueReadingComponent", 
         component: ContinueReadingComponentComponent 
-    },
-    { 
-        type: "ContentTile", 
-        component: ContentTileComponent 
     },
     { 
         type: "ContentRecsElement", 
         component: ContentRecsElementComponent 
     },
     { 
-        type: "Categories", 
-        component: CategoriesComponent 
-    },
-    { 
         type: "CarouselBlock", 
         component: CarouselBlockComponent 
     },
     { 
-        type: "ButtonBlock", 
-        component: ButtonBlockComponent 
+        type: "CTAElement", 
+        component: CTAElementComponent 
     },
     { 
-        type: "Blockbysuneel", 
-        component: BlockbysuneelComponent 
+        type: "ButtonBlock", 
+        component: ButtonBlockComponent 
     },
     { 
         type: "ArticleListElement", 

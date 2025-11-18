@@ -1,4 +1,0 @@
-fragment TestComponentData on TestComponent {
-  Title
-  Content { ...HeroBlockPropertyData }
-}

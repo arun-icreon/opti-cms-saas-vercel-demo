@@ -1,4 +1,0 @@
-fragment NextjsPageData on NextjsPage {
-  Title
-  block { ...NextCompPropertyData }
-}

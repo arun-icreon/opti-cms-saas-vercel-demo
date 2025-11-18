@@ -1,4 +1,4 @@
-import { type LinkDataFragment, type ReferenceDataFragment, type LinkItemDataFragment, cmp_ImageField, cmp_PublicImageAsset } from '@gql/graphql'
+import { type LinkDataFragment, type ReferenceDataFragment, type LinkItemDataFragment } from '@gql/graphql'
 
 export type ReferenceData = ReferenceDataFragment & {
     ' $fragmentRefs'?: {
@@ -16,7 +16,8 @@ export type LinkItemData = LinkItemDataFragment & {
     }
 }
 
-export function getLinkData(input?: LinkItemData | LinkData | ReferenceData | null): LinkData | undefined {
+export function getLinkData(input?: LinkItemData | LinkData | ReferenceData | null) : LinkData | undefined
+{
     if (!input)
         return undefined
     if ((input as ReferenceData).url)
@@ -24,7 +25,8 @@ export function getLinkData(input?: LinkItemData | LinkData | ReferenceData | nu
     return input as LinkData ?? undefined
 }
 
-export function linkDataToUrl(item: LinkData | null | undefined): URL | undefined {
+export function linkDataToUrl(item: LinkData | null | undefined) : URL | undefined
+{
     try {
         return new URL(item?.default ?? '/', item?.base ?? undefined)
     } catch {

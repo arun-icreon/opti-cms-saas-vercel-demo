@@ -1,3 +1,0 @@
-fragment CustomSectionData on CustomSection {
-  empty: _metadata { key }
-}

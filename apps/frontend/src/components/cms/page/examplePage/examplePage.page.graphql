@@ -1,3 +1,0 @@
-fragment examplePageData on examplePage {
-  heading
-}

@@ -1,7 +1,0 @@
-fragment Masthead_bannerData on Masthead_banner {
-  Left_Image {...ImageMediaComponentData}
-  Right_Image {...ImageMediaComponentData}
-  Title
-  Main_Content { json, html }
-  CTA { ...CTAElementPropertyData }
-}

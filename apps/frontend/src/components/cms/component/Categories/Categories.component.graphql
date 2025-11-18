@@ -1,3 +1,0 @@
-fragment CategoriesData on Categories {
-  empty: _metadata { key }
-}

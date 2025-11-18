@@ -1,3 +1,0 @@
-fragment BlogData on Blog {
-  Title
-}

@@ -1,3 +1,0 @@
-fragment testData on test {
-  empty: _metadata { key }
-}

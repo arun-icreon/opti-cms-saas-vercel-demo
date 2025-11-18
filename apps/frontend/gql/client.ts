@@ -85,6 +85,25 @@ export const ArticleListElementDataFragmentDoc = gql`
   topics
 }
     `;
+export const ButtonBlockDataFragmentDoc = gql`
+    fragment ButtonBlockData on ButtonBlock {
+  children: ButtonText
+  url: ButtonUrl {
+    ...LinkData
+  }
+  className: ButtonClass
+  buttonType: ButtonType
+  buttonVariant: ButtonVariant
+}
+    `;
+export const CTAElementDataFragmentDoc = gql`
+    fragment CTAElementData on CTAElement {
+  cta_text: Text
+  cta_link: Link {
+    ...LinkData
+  }
+}
+    `;
 export const IContentListItemFragmentDoc = gql`
     fragment IContentListItem on _IContent {
   ...IContentData
@@ -111,70 +130,10 @@ export const VideoMediaComponentDataFragmentDoc = gql`
   }
 }
     `;
-export const CTAElementPropertyDataFragmentDoc = gql`
-    fragment CTAElementPropertyData on CTAElementProperty {
-  Text
-  Link {
-    ...LinkData
-  }
-}
-    `;
-export const BlockbysuneelDataFragmentDoc = gql`
-    fragment BlockbysuneelData on Blockbysuneel {
-  BaseText
-  content {
-    ...IContentListItem
-    ...ImageMediaComponentData
-    ...VideoMediaComponentData
-  }
-  block {
-    ...CTAElementPropertyData
-  }
-  Dropdown
-  Number
-  checkBox
-}
-    `;
-export const ButtonBlockDataFragmentDoc = gql`
-    fragment ButtonBlockData on ButtonBlock {
-  children: ButtonText
-  url: ButtonUrl {
-    ...LinkData
-  }
-  className: ButtonClass
-  buttonType: ButtonType
-  buttonVariant: ButtonVariant
-}
-    `;
-export const CTAElementDataFragmentDoc = gql`
-    fragment CTAElementData on CTAElement {
-  cta_text: Text
-  cta_link: Link {
-    ...LinkData
-  }
-}
-    `;
-export const CategoriesDataFragmentDoc = gql`
-    fragment CategoriesData on Categories {
-  empty: _metadata {
-    key
-  }
-}
-    `;
 export const ContentRecsElementDataFragmentDoc = gql`
     fragment ContentRecsElementData on ContentRecsElement {
   ElementDeliveryApiKey
   ElementRecommendationCount
-}
-    `;
-export const ContentTileDataFragmentDoc = gql`
-    fragment ContentTileData on ContentTile {
-  Heading
-  ContentTiles {
-    ...IContentListItem
-    ...ImageMediaComponentData
-    ...VideoMediaComponentData
-  }
 }
     `;
 export const HeadingElementDataFragmentDoc = gql`
@@ -216,13 +175,6 @@ export const ImageElementDataFragmentDoc = gql`
   altText
   imageLink {
     ...ReferenceData
-    item {
-      graphId: _id
-      ... on cmp_PublicImageAsset {
-        alt: Title
-        src: Url
-      }
-    }
   }
 }
     `;
@@ -263,24 +215,6 @@ export const LayoutSettingsBlockDataFragmentDoc = gql`
     ...LinkItemData
   }
   appIdentifiers
-}
-    `;
-export const Masthead_bannerDataFragmentDoc = gql`
-    fragment Masthead_bannerData on Masthead_banner {
-  Left_Image {
-    ...ImageMediaComponentData
-  }
-  Right_Image {
-    ...ImageMediaComponentData
-  }
-  Title
-  Main_Content {
-    json
-    html
-  }
-  CTA {
-    ...CTAElementPropertyData
-  }
 }
     `;
 export const MenuNavigationBlockDataFragmentDoc = gql`
@@ -332,23 +266,9 @@ export const MegaMenuGroupBlockDataFragmentDoc = gql`
   }
 }
     `;
-export const NextCompDataFragmentDoc = gql`
-    fragment NextCompData on NextComp {
-  Title
-}
-    `;
 export const OdpEmbedBlockDataFragmentDoc = gql`
     fragment OdpEmbedBlockData on OdpEmbedBlock {
   ContentId
-}
-    `;
-export const PageBlockDataFragmentDoc = gql`
-    fragment PageBlockData on PageBlock {
-  BlogItems {
-    ...IContentListItem
-    ...ImageMediaComponentData
-    ...VideoMediaComponentData
-  }
 }
     `;
 export const PageSeoSettingsDataFragmentDoc = gql`
@@ -386,33 +306,6 @@ export const RichTextElementDataFragmentDoc = gql`
   text {
     json
     html
-  }
-}
-    `;
-export const HeroBlockPropertyDataFragmentDoc = gql`
-    fragment HeroBlockPropertyData on HeroBlockProperty {
-  HeroImage {
-    ...ReferenceData
-  }
-  Icon
-  Eyebrow
-  Heading
-  SubHeading
-  Description {
-    json
-    html
-  }
-  HeroColor
-  HeroButton {
-    ...ButtonBlockPropertyData
-  }
-}
-    `;
-export const TestComponentDataFragmentDoc = gql`
-    fragment TestComponentData on TestComponent {
-  Title
-  Content {
-    ...HeroBlockPropertyData
   }
 }
     `;
@@ -454,23 +347,9 @@ export const VideoElementDataFragmentDoc = gql`
   }
 }
     `;
-export const testDataFragmentDoc = gql`
-    fragment testData on test {
-  empty: _metadata {
-    key
-  }
-}
-    `;
 export const BlankSectionDataFragmentDoc = gql`
     fragment BlankSectionData on BlankSection {
   _metadata {
-    key
-  }
-}
-    `;
-export const CustomSectionDataFragmentDoc = gql`
-    fragment CustomSectionData on CustomSection {
-  empty: _metadata {
     key
   }
 }
@@ -484,35 +363,26 @@ export const ContinueReadingComponentDataFragmentDoc = gql`
     ...IContentData
     ...BlockData
     ...ArticleListElementData
-    ...BlockbysuneelData
     ...ButtonBlockData
     ...CTAElementData
     ...CarouselBlockData
-    ...CategoriesData
     ...ContentRecsElementData
-    ...ContentTileData
     ...ContinueReadingComponentData
     ...HeadingElementData
     ...HeroBlockData
     ...ImageElementData
     ...LayoutSettingsBlockData
-    ...Masthead_bannerData
     ...MegaMenuGroupBlockData
     ...MenuNavigationBlockData
-    ...NextCompData
     ...OdpEmbedBlockData
-    ...PageBlockData
     ...PageSeoSettingsData
     ...ParagraphElementData
     ...QuoteBlockData
     ...RichTextElementData
-    ...TestComponentData
     ...TestimonialElementData
     ...TextBlockData
     ...VideoElementData
-    ...testData
     ...BlankSectionData
-    ...CustomSectionData
   }
 }
     `;
@@ -524,35 +394,26 @@ export const CarouselBlockDataFragmentDoc = gql`
     ...ImageMediaComponentData
     ...VideoMediaComponentData
     ...ArticleListElementData
-    ...BlockbysuneelData
     ...ButtonBlockData
     ...CTAElementData
     ...CarouselBlockData
-    ...CategoriesData
     ...ContentRecsElementData
-    ...ContentTileData
     ...ContinueReadingComponentData
     ...HeadingElementData
     ...HeroBlockData
     ...ImageElementData
     ...LayoutSettingsBlockData
-    ...Masthead_bannerData
     ...MegaMenuGroupBlockData
     ...MenuNavigationBlockData
-    ...NextCompData
     ...OdpEmbedBlockData
-    ...PageBlockData
     ...PageSeoSettingsData
     ...ParagraphElementData
     ...QuoteBlockData
     ...RichTextElementData
-    ...TestComponentData
     ...TestimonialElementData
     ...TextBlockData
     ...VideoElementData
-    ...testData
     ...BlankSectionData
-    ...CustomSectionData
   }
 }
     `;
@@ -562,35 +423,26 @@ export const CompositionComponentNodeDataFragmentDoc = gql`
     ...BlockData
     ...ElementData
     ...ArticleListElementData
-    ...BlockbysuneelData
     ...ButtonBlockData
     ...CTAElementData
     ...CarouselBlockData
-    ...CategoriesData
     ...ContentRecsElementData
-    ...ContentTileData
     ...ContinueReadingComponentData
     ...HeadingElementData
     ...HeroBlockData
     ...ImageElementData
     ...LayoutSettingsBlockData
-    ...Masthead_bannerData
     ...MegaMenuGroupBlockData
     ...MenuNavigationBlockData
-    ...NextCompData
     ...OdpEmbedBlockData
-    ...PageBlockData
     ...PageSeoSettingsData
     ...ParagraphElementData
     ...QuoteBlockData
     ...RichTextElementData
-    ...TestComponentData
     ...TestimonialElementData
     ...TextBlockData
     ...VideoElementData
-    ...testData
     ...BlankSectionData
-    ...CustomSectionData
   }
 }
     `;
@@ -610,6 +462,12 @@ export const ExperienceDataFragmentDoc = gql`
                 nodes {
                   ...CompositionNodeData
                   ...CompositionComponentNodeData
+                  ... on ICompositionStructureNode {
+                    nodes {
+                      ...CompositionNodeData
+                      ...CompositionComponentNodeData
+                    }
+                  }
                 }
               }
             }
@@ -634,19 +492,6 @@ export const BlogSectionExperienceDataFragmentDoc = gql`
   ...ExperienceData
 }
     `;
-export const TestExpDataFragmentDoc = gql`
-    fragment TestExpData on TestExp {
-  BlankExperienceSeoSettings {
-    ...PageSeoSettingsPropertyData
-  }
-  ...ExperienceData
-}
-    `;
-export const BlogDataFragmentDoc = gql`
-    fragment BlogData on Blog {
-  Title
-}
-    `;
 export const BlogPostPageDataFragmentDoc = gql`
     fragment BlogPostPageData on BlogPostPage {
   blogTitle: Heading
@@ -665,35 +510,26 @@ export const BlogPostPageDataFragmentDoc = gql`
     ...ImageMediaComponentData
     ...VideoMediaComponentData
     ...ArticleListElementData
-    ...BlockbysuneelData
     ...ButtonBlockData
     ...CTAElementData
     ...CarouselBlockData
-    ...CategoriesData
     ...ContentRecsElementData
-    ...ContentTileData
     ...ContinueReadingComponentData
     ...HeadingElementData
     ...HeroBlockData
     ...ImageElementData
     ...LayoutSettingsBlockData
-    ...Masthead_bannerData
     ...MegaMenuGroupBlockData
     ...MenuNavigationBlockData
-    ...NextCompData
     ...OdpEmbedBlockData
-    ...PageBlockData
     ...PageSeoSettingsData
     ...ParagraphElementData
     ...QuoteBlockData
     ...RichTextElementData
-    ...TestComponentData
     ...TestimonialElementData
     ...TextBlockData
     ...VideoElementData
-    ...testData
     ...BlankSectionData
-    ...CustomSectionData
   }
 }
     `;
@@ -713,119 +549,56 @@ export const BlogPostPageSearchResultFragmentDoc = gql`
   }
 }
     `;
-export const HomePageDataFragmentDoc = gql`
-    fragment HomePageData on HomePage {
-  Meta {
-    ...PageSeoSettingsPropertyData
-  }
-}
-    `;
 export const LandingPageDataFragmentDoc = gql`
     fragment LandingPageData on LandingPage {
   TopContentArea {
     ...BlockData
     ...ArticleListElementData
-    ...BlockbysuneelData
     ...ButtonBlockData
     ...CTAElementData
     ...CarouselBlockData
-    ...CategoriesData
     ...ContentRecsElementData
-    ...ContentTileData
     ...ContinueReadingComponentData
     ...HeadingElementData
     ...HeroBlockData
     ...ImageElementData
     ...LayoutSettingsBlockData
-    ...Masthead_bannerData
     ...MegaMenuGroupBlockData
     ...MenuNavigationBlockData
-    ...NextCompData
     ...OdpEmbedBlockData
-    ...PageBlockData
     ...PageSeoSettingsData
     ...ParagraphElementData
     ...QuoteBlockData
     ...RichTextElementData
-    ...TestComponentData
     ...TestimonialElementData
     ...TextBlockData
     ...VideoElementData
-    ...testData
     ...BlankSectionData
-    ...CustomSectionData
   }
   MainContentArea {
     ...BlockData
     ...ArticleListElementData
-    ...BlockbysuneelData
     ...ButtonBlockData
     ...CTAElementData
     ...CarouselBlockData
-    ...CategoriesData
     ...ContentRecsElementData
-    ...ContentTileData
     ...ContinueReadingComponentData
     ...HeadingElementData
     ...HeroBlockData
     ...ImageElementData
     ...LayoutSettingsBlockData
-    ...Masthead_bannerData
     ...MegaMenuGroupBlockData
     ...MenuNavigationBlockData
-    ...NextCompData
     ...OdpEmbedBlockData
-    ...PageBlockData
     ...PageSeoSettingsData
     ...ParagraphElementData
     ...QuoteBlockData
     ...RichTextElementData
-    ...TestComponentData
     ...TestimonialElementData
     ...TextBlockData
     ...VideoElementData
-    ...testData
     ...BlankSectionData
-    ...CustomSectionData
   }
-}
-    `;
-export const NextCompPropertyDataFragmentDoc = gql`
-    fragment NextCompPropertyData on NextCompProperty {
-  Title
-}
-    `;
-export const NextjsPageDataFragmentDoc = gql`
-    fragment NextjsPageData on NextjsPage {
-  Title
-  block {
-    ...NextCompPropertyData
-  }
-}
-    `;
-export const RacesDataFragmentDoc = gql`
-    fragment RacesData on Races {
-  Race_Title
-}
-    `;
-export const TemplateBySuneelDataFragmentDoc = gql`
-    fragment TemplateBySuneelData on TemplateBySuneel {
-  Choice
-}
-    `;
-export const examplePageDataFragmentDoc = gql`
-    fragment examplePageData on examplePage {
-  heading
-}
-    `;
-export const examplePage1DataFragmentDoc = gql`
-    fragment examplePage1Data on examplePage1 {
-  heading
-}
-    `;
-export const examplePage3DataFragmentDoc = gql`
-    fragment examplePage3Data on examplePage3 {
-  heading
 }
     `;
 export const SearchDataFragmentDoc = gql`
@@ -903,17 +676,13 @@ ${LinkDataFragmentDoc}
 ${ContinueReadingComponentDataFragmentDoc}
 ${BlockDataFragmentDoc}
 ${ArticleListElementDataFragmentDoc}
-${BlockbysuneelDataFragmentDoc}
-${IContentListItemFragmentDoc}
-${ImageMediaComponentDataFragmentDoc}
-${VideoMediaComponentDataFragmentDoc}
-${CTAElementPropertyDataFragmentDoc}
 ${ButtonBlockDataFragmentDoc}
 ${CTAElementDataFragmentDoc}
 ${CarouselBlockDataFragmentDoc}
-${CategoriesDataFragmentDoc}
+${IContentListItemFragmentDoc}
+${ImageMediaComponentDataFragmentDoc}
+${VideoMediaComponentDataFragmentDoc}
 ${ContentRecsElementDataFragmentDoc}
-${ContentTileDataFragmentDoc}
 ${HeadingElementDataFragmentDoc}
 ${HeroBlockDataFragmentDoc}
 ${ReferenceDataFragmentDoc}
@@ -921,25 +690,18 @@ ${ButtonBlockPropertyDataFragmentDoc}
 ${ImageElementDataFragmentDoc}
 ${LayoutSettingsBlockDataFragmentDoc}
 ${LinkItemDataFragmentDoc}
-${Masthead_bannerDataFragmentDoc}
 ${MegaMenuGroupBlockDataFragmentDoc}
 ${MenuNavigationBlockDataFragmentDoc}
 ${BlogPostPageMenuBlockFragmentDoc}
-${NextCompDataFragmentDoc}
 ${OdpEmbedBlockDataFragmentDoc}
-${PageBlockDataFragmentDoc}
 ${PageSeoSettingsDataFragmentDoc}
 ${ParagraphElementDataFragmentDoc}
 ${QuoteBlockDataFragmentDoc}
 ${RichTextElementDataFragmentDoc}
-${TestComponentDataFragmentDoc}
-${HeroBlockPropertyDataFragmentDoc}
 ${TestimonialElementDataFragmentDoc}
 ${TextBlockDataFragmentDoc}
 ${VideoElementDataFragmentDoc}
-${testDataFragmentDoc}
-${BlankSectionDataFragmentDoc}
-${CustomSectionDataFragmentDoc}`;
+${BlankSectionDataFragmentDoc}`;
 export const getBlankExperienceMetaDataDocument = gql`
     query getBlankExperienceMetaData($key: String!, $locale: [Locales]) {
   page: BlankExperience(where: {_metadata: {key: {eq: $key}}}, locale: $locale) {
@@ -1324,48 +1086,30 @@ export const getContentByIdDocument = gql`
       ...BlockData
       ...PageData
       ...ArticleListElementData
-      ...BlockbysuneelData
       ...ButtonBlockData
       ...CTAElementData
       ...CarouselBlockData
-      ...CategoriesData
       ...ContentRecsElementData
-      ...ContentTileData
       ...ContinueReadingComponentData
       ...HeadingElementData
       ...HeroBlockData
       ...ImageElementData
       ...LayoutSettingsBlockData
-      ...Masthead_bannerData
       ...MegaMenuGroupBlockData
       ...MenuNavigationBlockData
-      ...NextCompData
       ...OdpEmbedBlockData
-      ...PageBlockData
       ...PageSeoSettingsData
       ...ParagraphElementData
       ...QuoteBlockData
       ...RichTextElementData
-      ...TestComponentData
       ...TestimonialElementData
       ...TextBlockData
       ...VideoElementData
-      ...testData
       ...BlankSectionData
-      ...CustomSectionData
       ...BlankExperienceData
       ...BlogSectionExperienceData
-      ...TestExpData
-      ...BlogData
       ...BlogPostPageData
-      ...HomePageData
       ...LandingPageData
-      ...NextjsPageData
-      ...RacesData
-      ...TemplateBySuneelData
-      ...examplePageData
-      ...examplePage1Data
-      ...examplePage3Data
     }
   }
 }
@@ -1375,17 +1119,13 @@ ${LinkDataFragmentDoc}
 ${BlockDataFragmentDoc}
 ${PageDataFragmentDoc}
 ${ArticleListElementDataFragmentDoc}
-${BlockbysuneelDataFragmentDoc}
-${IContentListItemFragmentDoc}
-${ImageMediaComponentDataFragmentDoc}
-${VideoMediaComponentDataFragmentDoc}
-${CTAElementPropertyDataFragmentDoc}
 ${ButtonBlockDataFragmentDoc}
 ${CTAElementDataFragmentDoc}
 ${CarouselBlockDataFragmentDoc}
-${CategoriesDataFragmentDoc}
+${IContentListItemFragmentDoc}
+${ImageMediaComponentDataFragmentDoc}
+${VideoMediaComponentDataFragmentDoc}
 ${ContentRecsElementDataFragmentDoc}
-${ContentTileDataFragmentDoc}
 ${ContinueReadingComponentDataFragmentDoc}
 ${HeadingElementDataFragmentDoc}
 ${HeroBlockDataFragmentDoc}
@@ -1394,25 +1134,18 @@ ${ButtonBlockPropertyDataFragmentDoc}
 ${ImageElementDataFragmentDoc}
 ${LayoutSettingsBlockDataFragmentDoc}
 ${LinkItemDataFragmentDoc}
-${Masthead_bannerDataFragmentDoc}
 ${MegaMenuGroupBlockDataFragmentDoc}
 ${MenuNavigationBlockDataFragmentDoc}
 ${BlogPostPageMenuBlockFragmentDoc}
-${NextCompDataFragmentDoc}
 ${OdpEmbedBlockDataFragmentDoc}
-${PageBlockDataFragmentDoc}
 ${PageSeoSettingsDataFragmentDoc}
 ${ParagraphElementDataFragmentDoc}
 ${QuoteBlockDataFragmentDoc}
 ${RichTextElementDataFragmentDoc}
-${TestComponentDataFragmentDoc}
-${HeroBlockPropertyDataFragmentDoc}
 ${TestimonialElementDataFragmentDoc}
 ${TextBlockDataFragmentDoc}
 ${VideoElementDataFragmentDoc}
-${testDataFragmentDoc}
 ${BlankSectionDataFragmentDoc}
-${CustomSectionDataFragmentDoc}
 ${BlankExperienceDataFragmentDoc}
 ${PageSeoSettingsPropertyDataFragmentDoc}
 ${ExperienceDataFragmentDoc}
@@ -1421,18 +1154,8 @@ ${CompositionComponentNodeDataFragmentDoc}
 ${ElementDataFragmentDoc}
 ${IElementDataFragmentDoc}
 ${BlogSectionExperienceDataFragmentDoc}
-${TestExpDataFragmentDoc}
-${BlogDataFragmentDoc}
 ${BlogPostPageDataFragmentDoc}
-${HomePageDataFragmentDoc}
-${LandingPageDataFragmentDoc}
-${NextjsPageDataFragmentDoc}
-${NextCompPropertyDataFragmentDoc}
-${RacesDataFragmentDoc}
-${TemplateBySuneelDataFragmentDoc}
-${examplePageDataFragmentDoc}
-${examplePage1DataFragmentDoc}
-${examplePage3DataFragmentDoc}`;
+${LandingPageDataFragmentDoc}`;
 export const getContentByPathDocument = gql`
     query getContentByPath($path: [String!]!, $locale: [Locales!], $siteId: String, $changeset: String = null) {
   content: _Content(
@@ -1445,17 +1168,8 @@ export const getContentByPathDocument = gql`
       ...PageData
       ...BlankExperienceData
       ...BlogSectionExperienceData
-      ...TestExpData
-      ...BlogData
       ...BlogPostPageData
-      ...HomePageData
       ...LandingPageData
-      ...NextjsPageData
-      ...RacesData
-      ...TemplateBySuneelData
-      ...examplePageData
-      ...examplePage1Data
-      ...examplePage3Data
     }
   }
 }
@@ -1473,17 +1187,13 @@ ${BlockDataFragmentDoc}
 ${ElementDataFragmentDoc}
 ${IElementDataFragmentDoc}
 ${ArticleListElementDataFragmentDoc}
-${BlockbysuneelDataFragmentDoc}
-${IContentListItemFragmentDoc}
-${ImageMediaComponentDataFragmentDoc}
-${VideoMediaComponentDataFragmentDoc}
-${CTAElementPropertyDataFragmentDoc}
 ${ButtonBlockDataFragmentDoc}
 ${CTAElementDataFragmentDoc}
 ${CarouselBlockDataFragmentDoc}
-${CategoriesDataFragmentDoc}
+${IContentListItemFragmentDoc}
+${ImageMediaComponentDataFragmentDoc}
+${VideoMediaComponentDataFragmentDoc}
 ${ContentRecsElementDataFragmentDoc}
-${ContentTileDataFragmentDoc}
 ${ContinueReadingComponentDataFragmentDoc}
 ${HeadingElementDataFragmentDoc}
 ${HeroBlockDataFragmentDoc}
@@ -1491,38 +1201,21 @@ ${ButtonBlockPropertyDataFragmentDoc}
 ${ImageElementDataFragmentDoc}
 ${LayoutSettingsBlockDataFragmentDoc}
 ${LinkItemDataFragmentDoc}
-${Masthead_bannerDataFragmentDoc}
 ${MegaMenuGroupBlockDataFragmentDoc}
 ${MenuNavigationBlockDataFragmentDoc}
 ${BlogPostPageMenuBlockFragmentDoc}
-${NextCompDataFragmentDoc}
 ${OdpEmbedBlockDataFragmentDoc}
-${PageBlockDataFragmentDoc}
 ${PageSeoSettingsDataFragmentDoc}
 ${ParagraphElementDataFragmentDoc}
 ${QuoteBlockDataFragmentDoc}
 ${RichTextElementDataFragmentDoc}
-${TestComponentDataFragmentDoc}
-${HeroBlockPropertyDataFragmentDoc}
 ${TestimonialElementDataFragmentDoc}
 ${TextBlockDataFragmentDoc}
 ${VideoElementDataFragmentDoc}
-${testDataFragmentDoc}
 ${BlankSectionDataFragmentDoc}
-${CustomSectionDataFragmentDoc}
 ${BlogSectionExperienceDataFragmentDoc}
-${TestExpDataFragmentDoc}
-${BlogDataFragmentDoc}
 ${BlogPostPageDataFragmentDoc}
-${HomePageDataFragmentDoc}
-${LandingPageDataFragmentDoc}
-${NextjsPageDataFragmentDoc}
-${NextCompPropertyDataFragmentDoc}
-${RacesDataFragmentDoc}
-${TemplateBySuneelDataFragmentDoc}
-${examplePageDataFragmentDoc}
-${examplePage1DataFragmentDoc}
-${examplePage3DataFragmentDoc}`;
+${LandingPageDataFragmentDoc}`;
 export const getContentTypeDocument = gql`
     query getContentType($key: String!, $version: String, $locale: [Locales!], $path: String = "-", $domain: String) {
   content: _Content(

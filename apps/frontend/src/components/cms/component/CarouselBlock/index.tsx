@@ -6,16 +6,17 @@ import { CmsContentArea, CmsEditable } from "@remkoj/optimizely-cms-react/rsc";
 
 const CarouselBlockComponent = dynamic(() => import("./_carousel-block"), { ssr: true });
 
-export const CarouselBlock: CmsComponent<CarouselBlockDataFragment> = async ({ data, contentLink, inEditMode, ctx }) => {
+export const CarouselBlock: CmsComponent<CarouselBlockDataFragment> = async ({ data, contentLink, ctx }) => {
   const items = data?.CarouselItemsContentArea || [];
 
   return (
     <CmsEditable as={CarouselBlockComponent}
       cmsId={ contentLink.key }
       data={{ ...data, itemCount: items.length }}
-      inEditMode={inEditMode}
-      contentLink={contentLink}
+      inEditMode={ctx?.inEditMode}
+      contentLink={ contentLink }
       ctx={ctx}
+      forwardCtx={false}
     >
       <CmsContentArea
         noWrapper

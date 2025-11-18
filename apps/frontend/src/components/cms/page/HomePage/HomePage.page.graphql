@@ -1,3 +1,0 @@
-fragment HomePageData on HomePage {
-  Meta { ...PageSeoSettingsPropertyData }
-}
