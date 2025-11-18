@@ -1,0 +1,6 @@
+fragment HeroComponentData on HeroComponent {
+  HeroTitle
+  HeroDescription { json, html }
+  BannerImage { ...ImageElementPropertyData }
+  HeroLink { ...LinkData }
+}

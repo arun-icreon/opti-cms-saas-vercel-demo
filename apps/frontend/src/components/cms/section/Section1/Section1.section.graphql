@@ -1,0 +1,3 @@
+fragment Section1Data on Section1 {
+  r1
+}

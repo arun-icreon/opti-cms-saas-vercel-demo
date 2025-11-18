@@ -1,0 +1,6 @@
+fragment ThumbnailUpTickerData on ThumbnailUpTicker {
+  Title
+  Description
+  FigmaLogo { ...LinkData }
+  HeroImage { ...LinkData }
+}

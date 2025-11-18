@@ -1,0 +1,4 @@
+fragment TitleDescriptionBlockData on TitleDescriptionBlock {
+  TitleBlock
+  DescriptionBlock
+}

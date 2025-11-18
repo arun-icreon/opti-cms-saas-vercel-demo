@@ -1,0 +1,3 @@
+fragment TaskBlock2RajeevData on TaskBlock2Rajeev {
+  TaskBlock2Rajeev { ...IContentListItem }
+}

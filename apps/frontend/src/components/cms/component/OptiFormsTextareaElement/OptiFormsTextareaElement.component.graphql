@@ -1,0 +1,8 @@
+fragment OptiFormsTextareaElementData on OptiFormsTextareaElement {
+  Label
+  Placeholder
+  Tooltip
+  PredefinedValue
+  Validators
+  AutoComplete
+}

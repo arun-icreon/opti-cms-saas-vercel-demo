@@ -1,0 +1,27 @@
+{
+  "key": "fontsize",
+  "displayName": "fontsize",
+  "nodeType": "column",
+  "isDefault": false,
+  "settings": {
+    "textFontSize": {
+      "displayName": "Text Font Size",
+      "editor": "",
+      "sortOrder": 20,
+      "choices": {
+        "light": {
+          "displayName": "100",
+          "sortOrder": 10
+        },
+        "semi": {
+          "displayName": "300",
+          "sortOrder": 20
+        },
+        "bold": {
+          "displayName": "600",
+          "sortOrder": 20
+        }
+      }
+    }
+  }
+}

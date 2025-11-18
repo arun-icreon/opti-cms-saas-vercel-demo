@@ -1,0 +1,13 @@
+{
+  "key": "CustomSection",
+  "displayName": "Custom Section",
+  "description": "Custom Section",
+  "baseType": "section",
+  "sortOrder": 0,
+  "mayContainTypes": [],
+  "mediaFileExtensions": [],
+  "compositionBehaviors": [
+    "sectionEnabled"
+  ],
+  "properties": {}
+}

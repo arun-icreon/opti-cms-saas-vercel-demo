@@ -1,0 +1,3 @@
+fragment ns_homeData on ns_home {
+  title
+}

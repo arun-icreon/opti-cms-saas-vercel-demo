@@ -1,0 +1,5 @@
+fragment TitleDescriptionWithCTAData on TitleDescriptionWithCTA {
+  BlockImg
+  BlockTitle
+  BlockCTA { ...LinkData }
+}

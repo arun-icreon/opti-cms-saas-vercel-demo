@@ -1,0 +1,4 @@
+fragment ImageWithLinkData on ImageWithLink {
+  imageLink { ...ReferenceData }
+  Link { ...LinkData }
+}

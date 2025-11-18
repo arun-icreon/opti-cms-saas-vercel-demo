@@ -1,0 +1,3 @@
+fragment PageBlockData on PageBlock {
+  BlogItems { ...IContentListItem }
+}

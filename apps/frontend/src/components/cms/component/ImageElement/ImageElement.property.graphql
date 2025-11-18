@@ -1,0 +1,4 @@
+fragment ImageElementPropertyData on ImageElementProperty {
+  altText
+  imageLink { ...ReferenceData }
+}

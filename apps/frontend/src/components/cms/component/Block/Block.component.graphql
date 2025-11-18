@@ -1,0 +1,6 @@
+fragment BlockData on Block {
+  TaskRajeevTitle
+  TaskRajeevDescription
+  TaskRajeevCTA { ...LinkData }
+  TaksRajeevImage { ...ReferenceData }
+}

@@ -11,7 +11,7 @@ const handler = createPublishApi({
         '/robots.txt'
     ],
 
-    optimizePublish: true,   // When set to enabled, this will try to only publish the content item published by the CMS
+    optimizePublish: false,   // When set to enabled, this will try to only publish the content item published by the CMS
     // tags: ['opti-graph'], // Set tags to always purge when publishing content
     client: () => createClient(undefined, undefined, {
         nextJsFetchDirectives: true,

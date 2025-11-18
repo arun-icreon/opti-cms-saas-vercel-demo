@@ -7,6 +7,7 @@ import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { factory } from '@/components/factory';
 import { createClient } from '@remkoj/optimizely-graph-client';
+import Script from "next/script";
 
 // Server side components
 import { EnvTools, Scripts, OptimizelyOneGadget } from "@remkoj/optimizely-one-nextjs/server";
@@ -16,6 +17,7 @@ import { ServerContext } from "@remkoj/optimizely-cms-react/rsc";
 import { OptimizelyOneProvider, PageActivator } from "@remkoj/optimizely-one-nextjs/client";
 import GoogleAnalytics from '@/components/integrations/google-analytics'
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import ODPAnalytics from '@/components/integrations/odp';
 
 /* eslint-disable @next/next/no-css-tags */
 
@@ -80,9 +82,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang={ locale }>
       <head>
-          <meta name="algolia-site-verification"  content="2105C6345AA0797C" />
         <Scripts.Header experimentationAllowOverride={ !forceDisableOverride } />
         { enableDemoTools && <link key="dynamic-styles" rel="stylesheet" href="/main.css" ></link> }
+        <Script src="https://cdn.optimizely.com/js/5172013971537920.js" strategy="afterInteractive" />
       </head>
       <ThemeProvider value={{ theme: "system" }}>
         <Body className={`${figtree.className} on-ghost-white overflow-x-hidden`}>
@@ -97,10 +99,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
           </OptimizelyOneProvider>
           <Scripts.Footer />
           { enableGoogleAnalytics && <GoogleAnalytics measurementId={ ga_id } /> }
+
           <SpeedInsights />
+          <ODPAnalytics />
         </Body>
       </ThemeProvider>
     </html>
   );
 }
-

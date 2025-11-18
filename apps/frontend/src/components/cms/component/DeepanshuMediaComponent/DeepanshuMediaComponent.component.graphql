@@ -1,0 +1,6 @@
+fragment DeepanshuMediaComponentData on DeepanshuMediaComponent {
+  ImageDescription
+  imageLink { ...ReferenceData }
+  Text
+  Link { ...LinkData }
+}

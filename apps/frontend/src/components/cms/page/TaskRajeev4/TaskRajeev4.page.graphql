@@ -1,0 +1,3 @@
+fragment TaskRajeev4Data on TaskRajeev4 {
+  empty: _metadata { key }
+}

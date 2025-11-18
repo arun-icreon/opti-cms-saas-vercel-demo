@@ -1,0 +1,8 @@
+fragment OptiFormsContainerDataData on OptiFormsContainerData {
+  Title
+  Description
+  ShowSummaryMessageAfterSubmission
+  SubmitConfirmationMessage
+  ResetConfirmationMessage
+  SubmitUrl { ...LinkData }
+}

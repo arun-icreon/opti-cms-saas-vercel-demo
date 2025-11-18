@@ -4,7 +4,6 @@ import { type HeadingElementDataFragment } from "@/gql/graphql"
 import AnimatedText from "@/components/shared/animated_text"
 import { extractSettings } from "@remkoj/optimizely-cms-react/rsc"
 import { styleDictionary, styleDefaults } from './_styles'
-import { omitCmsComponentProps } from '@/lib/filter-props'
 
 type AnimatedHeadingElementProps = ComponentProps<AnimatedHeadingStylesComponent<HeadingElementDataFragment>> & {
     withReducedMotion?: boolean
@@ -26,7 +25,7 @@ export const AnimatedHeadingElement : FunctionComponent<AnimatedHeadingElementPr
     cssClasses.push(styleDictionary.transform[transform])
     const delay = styleDictionary.delay[delayValue]
 
-    return <div className={ cssClasses.filter(x=>x).join(' ') } { ...omitCmsComponentProps(containerProps) }>
+    return <div className={ cssClasses.filter(x=>x).join(' ') } { ...containerProps }>
         { withReducedMotion ? <Component>{ headingText ?? "" }</Component> : <AnimatedText el={ Component } text={ headingText ?? "" } delay={ delay } /> }
     </div>
 }

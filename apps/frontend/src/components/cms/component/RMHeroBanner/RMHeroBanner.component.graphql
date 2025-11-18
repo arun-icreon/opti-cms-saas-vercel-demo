@@ -1,0 +1,6 @@
+fragment RMHeroBannerData on RMHeroBanner {
+  RMTitleName
+  RMDescription { ...ReferenceData }
+  RMCTAButtons { ...IContentListItem }
+  RMImage { ...ReferenceData }
+}

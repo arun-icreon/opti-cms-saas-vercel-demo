@@ -1,0 +1,8 @@
+fragment OptiFormsRangeElementData on OptiFormsRangeElement {
+  Label
+  Tooltip
+  PredefinedValue
+  Min
+  Max
+  Increment
+}

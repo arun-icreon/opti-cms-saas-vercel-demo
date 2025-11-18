@@ -1,0 +1,7 @@
+fragment OptiFormsUrlElementData on OptiFormsUrlElement {
+  Label
+  Placeholder
+  Tooltip
+  PredefinedValue
+  Validators
+}

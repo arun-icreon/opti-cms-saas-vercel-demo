@@ -1,0 +1,5 @@
+fragment ManishTestData on ManishTest {
+  Heading
+  Description { json, html }
+  campaign_date
+}

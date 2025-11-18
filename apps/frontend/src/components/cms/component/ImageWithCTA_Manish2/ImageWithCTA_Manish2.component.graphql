@@ -1,0 +1,4 @@
+fragment ImageWithCTA_Manish2Data on ImageWithCTA_Manish2 {
+  Image { ...ReferenceData }
+  CTA { ...LinkData }
+}

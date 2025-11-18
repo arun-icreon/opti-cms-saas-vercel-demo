@@ -46,42 +46,46 @@ type ImageElementProps = ComponentProps<DefaultImageElementComponent<ImageElemen
     withReducedMotion?: boolean
 }
 
-export const ImageElement : FunctionComponent<ImageElementProps>  = ({ data: { altText, imageLink }, layoutProps, children, withReducedMotion = false, ...props }) => {
-    const { 
-        roundedCorners="none", 
-        appear="none", 
-        delay="none", 
-        duration="none", 
-        direction="ltr", 
-        aspectRatio = "square", 
-        orientation="landscape" 
+export const ImageElement: FunctionComponent<ImageElementProps> = ({ data: { altText, imageLink }, layoutProps, children, withReducedMotion = false, ...props }) => {
+
+    console.log("altText ", altText);
+    console.log("imageLink arun ", imageLink);
+
+    const {
+        roundedCorners = "none",
+        appear = "none",
+        delay = "none",
+        duration = "none",
+        direction = "ltr",
+        aspectRatio = "square",
+        orientation = "landscape"
     } = extractSettings(layoutProps)
 
     const useFadeIn = appear != 'none' && duration != 'none'
     const isPortrait = orientation == 'portrait'
 
-    const cssClasses : string[] = ["relative w-full overflow-hidden not-prose"]
+    const cssClasses: string[] = ["relative w-full overflow-hidden not-prose"]
     cssClasses.push((isPortrait ? portraitAspectRatioClasses[aspectRatio] : landscapeAspectRatioClasses[aspectRatio]) ?? '') //Add aspect ratio
     cssClasses.push(roundedCornersClasses[roundedCorners] ?? '') // Add rounded corners
 
     if (useFadeIn && !withReducedMotion) {
-        const fadeInDuration : number = durationClasses[duration] ?? 0
-        const fadeInDelay : number = delayClasses[delay] ?? 0
+        const fadeInDuration: number = durationClasses[duration] ?? 0
+        const fadeInDelay: number = delayClasses[delay] ?? 0
         const initialClip = direction == 'rtl' ? "circle(0% at 100%)" : "circle(0% at 0%)"
         const targetClip = direction == 'rtl' ? "circle(120% at 100%)" : "circle(120% at 0%)"
 
-        return <Animation 
-            className={ cssClasses.filter(x=>x && x.length > 0).join(' ')}
+        return <Animation
+            className={cssClasses.filter(x => x && x.length > 0).join(' ')}
             initial={{ opacity: 0, clipPath: initialClip }}
             animate={{ opacity: 1, clipPath: targetClip }}
             transition={{ duration: fadeInDuration, delay: fadeInDelay }}
-            { ...(props as MotionProps) }
+            {...(props as MotionProps)}
         >
-            <Image alt={altText ?? ""} src={ imageLink } fill className="object-cover" />
+            <Image alt={altText ?? ""} src={imageLink} fill className="object-cover" />
         </Animation>
     }
-    return <div className={ cssClasses.filter(x=>x && x.length > 0).join(' ')} { ...props }>
-        <Image alt={altText ?? ""} src={ imageLink } fill className="object-cover" />
+    return <div className={cssClasses.filter(x => x && x.length > 0).join(' ')} {...props}>
+        <Image alt={altText ?? ""} src={imageLink} fill className="object-cover" />
     </div>
 }
 

@@ -1,0 +1,5 @@
+fragment Custom_Component_VarshaData on Custom_Component_Varsha {
+  Heading
+  Description { json, html }
+  CTA { ...linkPropertyData }
+}

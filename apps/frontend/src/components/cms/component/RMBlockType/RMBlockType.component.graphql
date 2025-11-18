@@ -1,0 +1,9 @@
+fragment RMBlockTypeData on RMBlockType {
+  RMBlockcontent { ...IContentListItem }
+  RMBlock { ...ImageElementPropertyData }
+  RMCTA { ...LinkData }
+  RMText
+  RMTextShort
+  RMChoice { __typename }
+  RMCarousel
+}

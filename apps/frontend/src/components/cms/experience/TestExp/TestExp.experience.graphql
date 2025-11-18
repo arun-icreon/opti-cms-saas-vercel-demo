@@ -1,0 +1,4 @@
+fragment TestExpData on TestExp {
+  BlankExperienceSeoSettings { ...PageSeoSettingsPropertyData }
+  ...ExperienceData
+}

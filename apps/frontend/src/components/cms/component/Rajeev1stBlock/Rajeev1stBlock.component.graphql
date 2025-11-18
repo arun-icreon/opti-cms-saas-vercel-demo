@@ -1,0 +1,6 @@
+fragment Rajeev1stBlockData on Rajeev1stBlock {
+  Heading
+  Description
+  BlockCTA { ...LinkData }
+  ImageBlock { ...IContentListItem }
+}

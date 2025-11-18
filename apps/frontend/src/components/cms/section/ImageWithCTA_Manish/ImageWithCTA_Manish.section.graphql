@@ -1,0 +1,4 @@
+fragment ImageWithCTA_ManishData on ImageWithCTA_Manish {
+  ImageLink { ...LinkData }
+  ImageWithCTA_ManishImage: Image { ...ImageElementPropertyData }
+}

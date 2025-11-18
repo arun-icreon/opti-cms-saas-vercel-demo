@@ -1,0 +1,4 @@
+fragment OptiFormsResetElementData on OptiFormsResetElement {
+  Label
+  Tooltip
+}

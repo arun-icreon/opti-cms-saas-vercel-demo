@@ -1,0 +1,3 @@
+fragment NextCompData on NextComp {
+  Title
+}

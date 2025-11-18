@@ -2,7 +2,6 @@ import type { HeadingStylesComponent } from './displayTemplates'
 import { type HeadingElementDataFragment } from "@/gql/graphql"
 import { extractSettings } from "@remkoj/optimizely-cms-react/rsc"
 import { styleDictionary, styleDefaults } from './_styles'
-import { omitCmsComponentProps } from '@/lib/filter-props'
 
 export const DefaultHeadingElement : HeadingStylesComponent<HeadingElementDataFragment> = ({ data: { headingText }, layoutProps, className, ...containerProps }) => {
     const { 
@@ -20,5 +19,5 @@ export const DefaultHeadingElement : HeadingStylesComponent<HeadingElementDataFr
 
     const cssClassName = cssClasses.filter(x => x).join(' ')
 
-    return <Component className={ cssClassName } {...omitCmsComponentProps(containerProps)}>{ headingText }</Component>
+    return <Component className={ cssClassName } {...containerProps}>{ headingText }</Component>
 }

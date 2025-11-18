@@ -1,0 +1,3 @@
+fragment DisclaimerData on Disclaimer {
+  Disclaimer_Text
+}

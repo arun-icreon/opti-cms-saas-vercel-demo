@@ -1,0 +1,11 @@
+fragment ns_main_bannerData on ns_main_banner {
+  tagline_pill
+  heading
+  introduction
+  number_1
+  number_2
+  number_3
+  number_subtitle_1
+  number_subtitle_2
+  number_subtitle_3
+}
